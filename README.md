@@ -18,7 +18,8 @@ dependencia externa en runtime es la imagen del logo (GitHub raw).
 ├── public/                 # Estáticos (servidos vía env.ASSETS)
 │   ├── css/styles.css      # Sistema de diseño completo
 │   ├── js/main.js          # Menú móvil, UTM, microinteracciones
-│   └── fonts/              # Inter (auto-alojado, woff2 latin)
+│   ├── fonts/              # Inter (auto-alojado, woff2 latin)
+│   └── img/                # Visuales propios de /ofm (JPG + WebP, optimizados)
 ├── src/                    # Worker
 │   ├── index.js            # Punto de entrada: routing + headers de seguridad
 │   ├── config.js           # ⚙️ CONFIG CENTRAL: marca, dominio, logo, redes, formularios
