@@ -23,6 +23,9 @@ const MIME = {
   '.js': 'text/javascript; charset=utf-8',
   '.woff2': 'font/woff2',
   '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
 };
 
 const assetsFetch = async (request) => {
@@ -87,7 +90,7 @@ const PAGES = [
   // método no permitido
 ];
 
-const KNOWN_STATIC = ['/css/', '/js/', '/fonts/', '/favicon.ico', '/robots.txt', '/sitemap.xml'];
+const KNOWN_STATIC = ['/css/', '/js/', '/fonts/', '/img/', '/favicon.ico', '/robots.txt', '/sitemap.xml'];
 const KNOWN_PAGES = PAGES.map(([p]) => (p.length > 1 ? p.replace(/\/+$/, '') : p));
 
 console.log('── Rutas ────────────────────────────────');
@@ -146,6 +149,27 @@ for (const [p, { html }] of Object.entries(htmlByPath)) {
   }
 }
 pass(`${totalLinks} enlaces revisados (sin enlaces rotos)`);
+
+console.log('── Imágenes locales (/img/) ──────────────');
+const imgSrcRe = /(?:src|srcset)="(\/img\/[^"]+)"/g;
+let imgRefs = 0;
+const imgSet = new Set();
+for (const [p, { html }] of Object.entries(htmlByPath)) {
+  let m;
+  while ((m = imgSrcRe.exec(html)) !== null) {
+    imgRefs += 1;
+    imgSet.add(m[1]);
+  }
+}
+for (const src of imgSet) {
+  const res = await get(src);
+  const type = res.headers.get('content-type');
+  if (res.status === 200 && type && type.startsWith('image/'))
+    pass(`${src} → 200 (${type})`);
+  else fail(`${src} → ${res.status} (${type || 'sin content-type'})`);
+}
+if (imgRefs > 0) pass(`${imgRefs} referencias <img>/<source> a /img/ en el HTML`);
+else fail('ninguna página referencia imágenes locales');
 
 console.log('── Formularios (4) ───────────────────────');
 const formChecks = [

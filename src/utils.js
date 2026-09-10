@@ -88,7 +88,8 @@ export function securityHeaders() {
 
 /** Cache por tipo de recurso estático. */
 export function cacheControlFor(pathname) {
-  if (pathname.startsWith('/fonts/')) return 'public, max-age=31536000, immutable';
+  if (pathname.startsWith('/fonts/') || pathname.startsWith('/img/'))
+    return 'public, max-age=31536000, immutable';
   if (pathname.startsWith('/css/') || pathname.startsWith('/js/'))
     return 'public, max-age=86400';
   return 'public, max-age=3600';
