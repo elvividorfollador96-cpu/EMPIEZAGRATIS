@@ -1,0 +1,27 @@
+{
+  // OFM TOP — Cloudflare Workers
+  // La URL pública se deriva de `name` + slug de la cuenta:
+  //   https://empiezagratis.ofmtop.workers.dev  (no modificar)
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "empiezagratis",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-01",
+  "workers_dev": true,
+
+  // Asetos estáticos (css, js, fuentes). `run_worker_first` hace que TODA
+  // la respuesta pase por el Worker: así los headers de seguridad se
+  // aplican también a los archivos estáticos.
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+
+  "observability": {
+    "enabled": true
+  }
+
+  // account_id: añádela aquí o usa la variable de entorno CF_ACCOUNT_ID
+  // en tu entorno de despliegue. Ej.:
+  // "account_id": "TU_ACCOUNT_ID_DE_CLOUDFLARE"
+}

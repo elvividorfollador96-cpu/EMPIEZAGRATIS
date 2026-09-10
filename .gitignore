@@ -1,0 +1,14 @@
+# Dependencias
+node_modules/
+
+# Cloudflare / Wrangler
+.wrangler/
+dist/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

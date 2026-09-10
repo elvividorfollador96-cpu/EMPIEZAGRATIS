@@ -1,0 +1,20 @@
+{
+  "name": "ofmtop-empiezagratis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "OFM TOP — landing premium de captación de leads. Cloudflare Workers + HTML/CSS/JS puro.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:node": "node scripts/dev.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/smoke.test.mjs",
+    "deploy": "wrangler deploy",
+    "lint:html": "node scripts/html-validate.mjs"
+  },
+  "devDependencies": {
+    "html-validate": "^11.15.0",
+    "linkedom": "^0.18.12",
+    "wrangler": "^4.61.0"
+  }
+}
