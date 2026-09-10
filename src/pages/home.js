@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { ctaOption } from '../components.js';
+import { ctaOption, heroBg, picture } from '../components.js';
 
 const PILLARS = [
   'Adquisición de tráfico',
@@ -62,6 +62,7 @@ export default {
     return (
       // HERO
       `<section class="hero">` +
+      heroBg('hero-home-agencia') +
       `  <div class="container">` +
       `    <div class="hero-logo" data-reveal>` +
       `      <span class="logo-mark logo-mark-hero" aria-hidden="true">` +
@@ -75,21 +76,83 @@ export default {
       `    </div>` +
       `    <h1 id="hero-title" class="hero-title d1" data-reveal>No se trata de publicar más.<br>Se trata de hacerlo mejor.</h1>` +
       `    <p class="hero-sub d2" data-reveal>${CONFIG.brand.description}</p>` +
-      `    <div class="paths">` +
-      `      <article class="path-card d2" data-reveal>` +
-      `        <p class="eyebrow">Soy creadora</p>` +
-      `        <h2>Quiero convertir OnlyFans en un proyecto serio.</h2>` +
-      `        <div class="path-actions">` +
-      `          <a class="btn btn-primary btn-block" href="/creadoras/empezar">Empezar en OnlyFans</a>` +
-      `          <a class="btn btn-ghost btn-block" href="/creadoras/escalar">Crecer y escalar mi cuenta</a>` +
+      `  </div>` +
+      `</section>` +
+      // GUÍAS GRATIS COMO EJE
+      `<section class="section paths-section" aria-labelledby="guias-title">` +
+      `  <div class="container">` +
+      `    <div class="section-head" data-reveal>` +
+      `      <p class="eyebrow">Guías gratuitas</p>` +
+      `      <h2 id="guias-title">Elige tu camino y recibe tu guía gratis</h2>` +
+      `      <p class="section-lead">Sea cual sea tu punto de partida, al elegir tu camino recibes nuestra guía gratuita.</p>` +
+      `    </div>` +
+      `    <div class="guide-grid guide-grid-4">` +
+      `      <article class="guide-card d1" data-reveal>` +
+      `        <div class="guide-media">` +
+      `          <span class="guide-chip">Guía gratis</span>` +
+      picture({
+        base: 'creacion-empezar',
+        alt: 'Escritorio de creadora en casa: móvil en trípode con aro de luz, libreta de notas y té',
+        width: 1000,
+        height: 666,
+      }) +
+      `        </div>` +
+      `        <div class="guide-body">` +
+      `          <p class="eyebrow">Creadora</p>` +
+      `          <h3>Empezar en OnlyFans</h3>` +
+      `          <p>Para quienes todavía no han empezado o están dando sus primeros pasos.</p>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="/creadoras/empezar">Quiero mi guía gratis</a>` +
       `        </div>` +
       `      </article>` +
-      `      <article class="path-card d3" data-reveal>` +
-      `        <p class="eyebrow">Quiero ser OFM</p>` +
-      `        <h2>Aprende a construir y gestionar proyectos de creadoras.</h2>` +
-      `        <div class="path-actions">` +
-      `          <a class="btn btn-primary btn-block" href="/ofm/modelos-reales">Modelos reales</a>` +
-      `          <a class="btn btn-ghost btn-block" href="/ofm/modelos-ia">Modelos IA</a>` +
+      `      <article class="guide-card d2" data-reveal>` +
+      `        <div class="guide-media">` +
+      `          <span class="guide-chip">Guía gratis</span>` +
+      picture({
+        base: 'analitica-escalar',
+        alt: 'Mano señalando una curva de crecimiento ascendente en un monitor con notas adhesivas',
+        width: 1000,
+        height: 666,
+      }) +
+      `        </div>` +
+      `        <div class="guide-body">` +
+      `          <p class="eyebrow">Creadora</p>` +
+      `          <h3>Crecer y escalar</h3>` +
+      `          <p>Para creadoras que ya tienen una cuenta y quieren mejorar tráfico, conversión y estructura.</p>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="/creadoras/escalar">Quiero mi guía gratis</a>` +
+      `        </div>` +
+      `      </article>` +
+      `      <article class="guide-card d3" data-reveal>` +
+      `        <div class="guide-media">` +
+      `          <span class="guide-chip">Guía gratis</span>` +
+      picture({
+        base: 'set-grabacion-reales',
+        alt: 'Set de grabación con aro de luz y móvil: una mano del equipo ajusta el soporte junto a la cámara',
+        width: 1000,
+        height: 666,
+      }) +
+      `        </div>` +
+      `        <div class="guide-body">` +
+      `          <p class="eyebrow">OFM</p>` +
+      `          <h3>Modelos reales</h3>` +
+      `          <p>Aprende los fundamentos para trabajar con modelos reales y construir un sistema de crecimiento.</p>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="/ofm/modelos-reales">Quiero mi guía gratis</a>` +
+      `        </div>` +
+      `      </article>` +
+      `      <article class="guide-card d4" data-reveal>` +
+      `        <div class="guide-media">` +
+      `          <span class="guide-chip">Guía gratis</span>` +
+      picture({
+        base: 'gen-modelo-virtual',
+        alt: 'Monitor con una retícula de variaciones del mismo modelo virtual generadas con IA',
+        width: 1000,
+        height: 666,
+      }) +
+      `        </div>` +
+      `        <div class="guide-body">` +
+      `          <p class="eyebrow">OFM</p>` +
+      `          <h3>Modelos IA</h3>` +
+      `          <p>Aprende los fundamentos para crear y desarrollar un proyecto alrededor de modelos virtuales generados con IA.</p>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="/ofm/modelos-ia">Quiero mi guía gratis</a>` +
       `        </div>` +
       `      </article>` +
       `    </div>` +
