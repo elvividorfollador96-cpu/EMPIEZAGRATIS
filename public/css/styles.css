@@ -1481,3 +1481,19 @@ html.js [data-reveal].d4 {
     margin-top: 24px;
   }
 }
+
+/* 24. Fondo fotográfico oscurecido en héroes */
+.hero-bg { position: absolute; inset: 0; z-index: -2; pointer-events: none; }
+.hero-bg picture, .hero-bg img { width: 100%; height: 100%; }
+.hero-bg img { object-fit: cover; opacity: 0.2; filter: saturate(0.85) contrast(1.05); }
+.hero-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,9,13,0.62), rgba(6,9,13,0.32) 45%, var(--bg) 98%); }
+/* 25. Guías gratis como eje de la home */
+.paths-section { padding-top: 12px; }
+.path-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.chip-guia { flex: none; padding: 6px 12px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 10.5px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; box-shadow: var(--shadow-accent); white-space: nowrap; }
+/* 26. Visual visible en páginas de detalle */
+.page-visual { position: relative; max-width: 780px; margin-top: 38px; border: 1px solid var(--line); border-radius: var(--radius-l); overflow: hidden; background: var(--bg-soft); box-shadow: 0 30px 70px -35px rgba(56,182,255,0.28); }
+.page-visual::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(6,9,13,0.22), transparent 26%, transparent 62%, rgba(6,9,13,0.85)); }
+.page-visual img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+.guide-grid-4 { max-width: 1060px; }
+@media (max-width: 520px) { .page-visual { margin-top: 28px; border-radius: var(--radius-m); } }

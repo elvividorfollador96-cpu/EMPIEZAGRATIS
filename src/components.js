@@ -16,6 +16,29 @@ export function logoMark({ size = 'md', priority = false } = {}) {
   );
 }
 
+export function picture({ base, alt, width, height, lazy = true }) {
+  const load = lazy
+    ? 'loading="lazy" decoding="async"'
+    : 'loading="eager" fetchpriority="high" decoding="async"';
+  return (
+    `<picture>` +
+    `<source type="image/webp" srcset="/img/${base}.webp">` +
+    `<img src="/img/${base}.jpg" alt="${alt}" width="${width}" height="${height}" ${load}>` +
+    `</picture>`
+  );
+}
+
+export function heroBg(base) {
+  return (
+    `<div class="hero-bg" aria-hidden="true">` +
+    `<picture>` +
+    `<source type="image/webp" srcset="/img/${base}.webp">` +
+    `<img src="/img/${base}.jpg" alt="" loading="eager" fetchpriority="low" decoding="async">` +
+    `</picture>` +
+    `</div>`
+  );
+}
+
 /** Iconos inline (mínimos, sin dependencias). */
 export const ICONS = {
   external:

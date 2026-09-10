@@ -1,4 +1,4 @@
-import { breadcrumb, leadPanel, topicsList } from '../components.js';
+import { breadcrumb, leadPanel, topicsList, heroBg, picture } from '../components.js';
 
 const TOPICS = [
   { n: '01', t: 'Preparación', d: 'La base del proyecto antes de publicar: perfil, presentación y expectativas realistas.' },
@@ -22,6 +22,7 @@ export default {
   content() {
     return (
       `<section class="page-hero">` +
+      heroBg('creacion-empezar') +
       `  <div class="container">` +
       breadcrumb([
         { href: '/', label: 'Inicio' },
@@ -32,6 +33,14 @@ export default {
       `      <p class="eyebrow">Creadoras · Empezar</p>` +
       `      <h1 id="page-title">Tu primer mes en OnlyFans</h1>` +
       `      <p class="page-sub">Una guía para entender qué hacer durante tus primeros pasos y evitar empezar sin dirección.</p>` +
+      `      <div class="page-visual" data-reveal>` +
+      picture({
+        base: 'creacion-empezar',
+        alt: 'Escritorio de creadora en casa: móvil en trípode con aro de luz, libreta de notas y té',
+        width: 1000,
+        height: 666,
+      }) +
+      `      </div>` +
       `    </div>` +
       `  </div>` +
       `</section>` +

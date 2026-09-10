@@ -1,4 +1,4 @@
-import { breadcrumb } from '../components.js';
+import { breadcrumb, heroBg, picture } from '../components.js';
 
 export default {
   path: '/creadoras',
@@ -11,6 +11,7 @@ export default {
   content() {
     return (
       `<section class="page-hero">` +
+      heroBg('creacion-empezar') +
       `  <div class="container">` +
       breadcrumb([
         { href: '/', label: 'Inicio' },
@@ -24,19 +25,41 @@ export default {
       `  </div>` +
       `</section>` +
       `<section class="section">` +
-      `  <div class="container container-narrow">` +
-      `    <div class="choice-grid">` +
-      `      <article class="choice-card d1" data-reveal>` +
-      `        <p class="eyebrow">Primeros pasos</p>` +
-      `        <h2>Empezar en OnlyFans</h2>` +
-      `        <p>Para quienes todavía no han empezado o están dando sus primeros pasos.</p>` +
-      `        <a class="btn btn-primary" href="/creadoras/empezar">Empezar</a>` +
+      `  <div class="container">` +
+      `    <div class="guide-grid">` +
+      `      <article class="guide-card d1" data-reveal>` +
+      `        <div class="guide-media">` +
+      `          <span class="guide-chip">Guía gratis</span>` +
+      picture({
+        base: 'creacion-empezar',
+        alt: 'Escritorio de creadora en casa: móvil en trípode con aro de luz, libreta de notas y té',
+        width: 1000,
+        height: 666,
+      }) +
+      `        </div>` +
+      `        <div class="guide-body">` +
+      `          <p class="eyebrow">Primeros pasos</p>` +
+      `          <h3>Empezar en OnlyFans</h3>` +
+      `          <p>Para quienes todavía no han empezado o están dando sus primeros pasos.</p>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="/creadoras/empezar">Ver la guía para empezar</a>` +
+      `        </div>` +
       `      </article>` +
-      `      <article class="choice-card d2" data-reveal>` +
-      `        <p class="eyebrow">Cuenta activa</p>` +
-      `        <h2>Crecer y escalar</h2>` +
-      `        <p>Para creadoras que ya tienen una cuenta y quieren mejorar tráfico, conversión y estructura.</p>` +
-      `        <a class="btn btn-primary" href="/creadoras/escalar">Quiero crecer</a>` +
+      `      <article class="guide-card d2" data-reveal>` +
+      `        <div class="guide-media">` +
+      `          <span class="guide-chip">Guía gratis</span>` +
+      picture({
+        base: 'analitica-escalar',
+        alt: 'Mano señalando una curva de crecimiento ascendente en un monitor con notas adhesivas',
+        width: 1000,
+        height: 666,
+      }) +
+      `        </div>` +
+      `        <div class="guide-body">` +
+      `          <p class="eyebrow">Cuenta activa</p>` +
+      `          <h3>Crecer y escalar</h3>` +
+      `          <p>Para creadoras que ya tienen una cuenta y quieren mejorar tráfico, conversión y estructura.</p>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="/creadoras/escalar">Ver la guía para crecer</a>` +
+      `        </div>` +
       `      </article>` +
       `    </div>` +
       `  </div>` +

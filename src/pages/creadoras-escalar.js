@@ -1,4 +1,4 @@
-import { breadcrumb, leadPanel, topicsList } from '../components.js';
+import { breadcrumb, leadPanel, topicsList, heroBg, picture } from '../components.js';
 
 const TOPICS = [
   { n: '01', t: 'Adquisición de tráfico', d: 'Fuentes de tráfico y una estrategia que no dependa de un solo canal.' },
@@ -21,6 +21,7 @@ export default {
   content() {
     return (
       `<section class="page-hero">` +
+      heroBg('analitica-escalar') +
       `  <div class="container">` +
       breadcrumb([
         { href: '/', label: 'Inicio' },
@@ -31,6 +32,14 @@ export default {
       `      <p class="eyebrow">Creadoras · Escalar</p>` +
       `      <h1 id="page-title">Crecer y escalar mi OnlyFans</h1>` +
       `      <p class="page-sub">Pasar de publicar sin dirección a trabajar con una estrategia de crecimiento.</p>` +
+      `      <div class="page-visual" data-reveal>` +
+      picture({
+        base: 'analitica-escalar',
+        alt: 'Mano señalando una curva de crecimiento ascendente en un monitor con notas adhesivas',
+        width: 1000,
+        height: 666,
+      }) +
+      `      </div>` +
       `    </div>` +
       `  </div>` +
       `</section>` +

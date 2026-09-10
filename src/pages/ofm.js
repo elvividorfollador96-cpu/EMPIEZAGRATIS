@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { breadcrumb, ICONS } from '../components.js';
+import { breadcrumb, ICONS, picture, heroBg } from '../components.js';
 
 /** Bloques de aprendizaje (sin descripciones inventadas: número + concepto). */
 const LEARN = [
@@ -10,19 +10,6 @@ const LEARN = [
   { n: '05', t: 'Métricas' },
   { n: '06', t: 'Escalado' },
 ];
-
-/** Imagen optimizada (WebP + JPEG de respaldo) integrada en el diseño. */
-function picture({ base, alt, width, height, lazy = true }) {
-  const load = lazy
-    ? 'loading="lazy" decoding="async"'
-    : 'loading="eager" fetchpriority="high" decoding="async"';
-  return (
-    `<picture>` +
-    `<source type="image/webp" srcset="/img/${base}.webp">` +
-    `<img src="/img/${base}.jpg" alt="${alt}" width="${width}" height="${height}" ${load}>` +
-    `</picture>`
-  );
-}
 
 /** Tarjeta de guía: imagen + badge GUÍA GRATIS + CTA al formulario público. */
 function guideCard({ media, alt, eyebrow, title, desc, formKey, moreHref, delay }) {
@@ -66,6 +53,7 @@ export default {
     return (
       // HERO: badge GUÍA GRATUITA + titular + CTA + visual
       `<section class="hero ofm-hero">` +
+      heroBg('analitica-escalar') +
       `  <div class="container">` +
       breadcrumb([
         { href: '/', label: 'Inicio' },

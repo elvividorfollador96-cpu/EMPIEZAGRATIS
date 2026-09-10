@@ -1,4 +1,4 @@
-import { breadcrumb, leadPanel, topicsList } from '../components.js';
+import { breadcrumb, leadPanel, topicsList, heroBg, picture } from '../components.js';
 
 const TOPICS = [
   { n: '01', t: 'Qué hace un OFM', d: 'El papel real de un gestor: estrategia, operaciones y crecimiento junto a la creadora.' },
@@ -24,6 +24,7 @@ export default {
   content() {
     return (
       `<section class="page-hero">` +
+      heroBg('set-grabacion-reales') +
       `  <div class="container">` +
       breadcrumb([
         { href: '/', label: 'Inicio' },
@@ -34,6 +35,14 @@ export default {
       `      <p class="eyebrow">OFM · Modelos reales</p>` +
       `      <h1 id="page-title">OFM desde cero: modelos reales</h1>` +
       `      <p class="page-sub">Aprende cómo funciona el trabajo de un OFM y qué piezas necesitas para construir un proyecto.</p>` +
+      `      <div class="page-visual" data-reveal>` +
+      picture({
+        base: 'set-grabacion-reales',
+        alt: 'Set de grabación con aro de luz y móvil: una mano del equipo ajusta el soporte junto a la cámara',
+        width: 1000,
+        height: 666,
+      }) +
+      `      </div>` +
       `    </div>` +
       `  </div>` +
       `</section>` +
