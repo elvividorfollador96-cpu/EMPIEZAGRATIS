@@ -5,9 +5,13 @@
  * datos legales y textos principales. Nada de URLs duplicadas por el código.
  *
  * FORMULARIOS (captación de leads):
- *   - El frontend propio (public/js/main.js) envía los datos mediante POST
- *     directo al endpoint `formResponse` de cada Google Form, con los
- *     entry.* verificados abajo (extraídos de cada formulario real).
+ *   - El frontend envía a NUESTRO Worker (/api/lead), que retransmite el
+ *     POST al endpoint `formResponse` de cada Google Form con la receta
+ *     completa (entry.* de envío + _sentinel + fvv + pageHistory + fbzx +
+ *     submissionTimestamp) y confirma leyendo la página de confirmación.
+ *   - Los entry.* de abajo son los IDs INTERNOS DE ENVÍO (el cuarto nivel
+ *     del JSON FB_PUBLIC_LOAD_DATA_ de cada formulario, es decir, lo que
+ *     el navegador envía realmente) — verificados con envíos reales.
  *   - Google Forms sigue siendo el backend/receptor y Google Sheets
  *     (hoja de respuestas) la base de datos/CRM. No se toca nada allí.
  *   - `url` (viewform?embedded=true) se usa como vista alternativa embebida
@@ -88,7 +92,7 @@ export const CONFIG = Object.freeze({
    * en cada despliegue (así el cliente nunca mezcla HTML nuevo con JS viejo).
    * Súbela (cualquier string distinto) cuando cambies styles.css o main.js.
    */
-  assetVersion: '2026.09.11-5',
+  assetVersion: '2026.09.11-6',
 
   /**
    * Fuente única del logo en toda la web.
@@ -127,12 +131,12 @@ export const CONFIG = Object.freeze({
       guide: 'Tu primer mes en OnlyFans',
       guideHref: '/creadoras/empezar',
       fields: [
-        { k: 'nombre', entry: '926132403', t: 'text', label: 'Nombre', ac: 'name', req: true },
-        { k: 'email', entry: '417115347', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '156670240', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
-        { k: 'instagram', entry: '865152098', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
-        { k: 'x', entry: '937158273', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
-        { k: 'threads', entry: '1034787982', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'nombre', entry: '219114604', t: 'text', label: 'Nombre', ac: 'name', req: true },
+        { k: 'email', entry: '641949080', t: 'email', label: 'Email', ac: 'email', req: true },
+        { k: 'whatsapp', entry: '339272321', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'instagram', entry: '849634385', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
+        { k: 'x', entry: '887390921', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'threads', entry: '639254078', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
         {
           k: 'situacion', entry: '942047099', t: 'select', req: true,
           label: '¿Cuál describe mejor tu situación actual?', ph: 'Elige una opción',
@@ -145,7 +149,7 @@ export const CONFIG = Object.freeze({
           label: 'Ingresos actuales aproximados con OnlyFans', ph: 'Elige una opción',
           options: ['Todavía no tengo cuenta', 'Tengo cuenta pero aún no genero', 'Menos de 500 €/mes', '500–1.500 €/mes', '1.500–5.000 €/mes', 'Más de 5.000 €/mes'],
         },
-        { k: 'objetivo', entry: '619708050', t: 'textarea', req: true, label: '¿Qué quieres conseguir con tu cuenta?', ph: 'Cuéntalo brevemente' },
+        { k: 'objetivo', entry: '30192777', t: 'textarea', req: true, label: '¿Qué quieres conseguir con tu cuenta?', ph: 'Cuéntalo brevemente' },
         { k: 'edad', entry: '127095517', t: 'check', req: true, label: AGE_VALUE, value: AGE_VALUE },
         { k: 'privacidad', entry: '168445616', t: 'check', req: true, label: PRIVACY_VALUE, value: PRIVACY_VALUE, links: true },
         { k: 'marketing', entry: '135486977', t: 'check', req: false, label: 'Quiero recibir novedades, recursos y comunicaciones de OFM TOP.', value: MARKETING_VALUE },
@@ -160,12 +164,12 @@ export const CONFIG = Object.freeze({
       guide: 'Cómo crecer y escalar una cuenta de OnlyFans',
       guideHref: '/creadoras/escalar',
       fields: [
-        { k: 'nombre', entry: '2097946739', t: 'text', label: 'Nombre', ac: 'name', req: true },
-        { k: 'email', entry: '1039269640', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '451485418', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
-        { k: 'instagram', entry: '357297570', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
-        { k: 'x', entry: '1407870938', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
-        { k: 'threads', entry: '1499032316', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'nombre', entry: '1936279882', t: 'text', label: 'Nombre', ac: 'name', req: true },
+        { k: 'email', entry: '450818698', t: 'email', label: 'Email', ac: 'email', req: true },
+        { k: 'whatsapp', entry: '1341616637', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'instagram', entry: '1138137799', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
+        { k: 'x', entry: '883992362', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'threads', entry: '1438551729', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
         {
           k: 'situacion', entry: '179507811', t: 'select', req: true,
           label: '¿Cuál describe mejor tu situación actual?', ph: 'Elige una opción',
@@ -178,7 +182,7 @@ export const CONFIG = Object.freeze({
           label: 'Ingresos actuales aproximados con OnlyFans', ph: 'Elige una opción',
           options: ['Todavía no tengo cuenta', 'Tengo cuenta pero aún no genero', 'Menos de 500 €/mes', '500–1.500 €/mes', '1.500–5.000 €/mes', 'Más de 5.000 €/mes'],
         },
-        { k: 'objetivo', entry: '803322735', t: 'textarea', req: true, label: '¿Qué quieres conseguir con tu cuenta?', ph: 'Cuéntalo brevemente' },
+        { k: 'objetivo', entry: '1276475451', t: 'textarea', req: true, label: '¿Qué quieres conseguir con tu cuenta?', ph: 'Cuéntalo brevemente' },
         { k: 'edad', entry: '823922150', t: 'check', req: true, label: AGE_VALUE, value: AGE_VALUE },
         { k: 'privacidad', entry: '23172599', t: 'check', req: true, label: PRIVACY_VALUE, value: PRIVACY_VALUE, links: true },
         { k: 'marketing', entry: '645168306', t: 'check', req: false, label: 'Quiero recibir novedades, recursos y comunicaciones de OFM TOP.', value: MARKETING_VALUE },
@@ -193,12 +197,12 @@ export const CONFIG = Object.freeze({
       guide: 'OFM desde cero: modelos reales',
       guideHref: '/ofm/modelos-reales',
       fields: [
-        { k: 'nombre', entry: '508171825', t: 'text', label: 'Nombre', ac: 'name', req: true },
-        { k: 'email', entry: '336290114', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '92091299', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
-        { k: 'instagram', entry: '361219190', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
-        { k: 'x', entry: '2129261344', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
-        { k: 'threads', entry: '466949815', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'nombre', entry: '1043066242', t: 'text', label: 'Nombre', ac: 'name', req: true },
+        { k: 'email', entry: '406570008', t: 'email', label: 'Email', ac: 'email', req: true },
+        { k: 'whatsapp', entry: '1609442940', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'instagram', entry: '14114265', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
+        { k: 'x', entry: '626445657', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'threads', entry: '2016613135', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
         {
           k: 'situacion', entry: '155373830', t: 'select', req: true,
           label: '¿Cuál describe mejor tu situación actual?', ph: 'Elige una opción',
@@ -206,7 +210,7 @@ export const CONFIG = Object.freeze({
         },
         { k: 'experiencia', entry: '779744389', t: 'select', req: true, label: '¿Qué experiencia tienes?', ph: 'Elige una opción', options: EXP_OPTIONS },
         { k: 'audiencia', entry: '371670465', t: 'select', req: true, label: '¿Tienes actualmente audiencia o tráfico?', ph: 'Elige una opción', options: AUDIENCE_OPTIONS },
-        { k: 'objetivo', entry: '1703598166', t: 'textarea', req: true, label: '¿Qué quieres conseguir aprendiendo OFM?', ph: 'Cuéntalo brevemente' },
+        { k: 'objetivo', entry: '334755478', t: 'textarea', req: true, label: '¿Qué quieres conseguir aprendiendo OFM?', ph: 'Cuéntalo brevemente' },
         { k: 'edad', entry: '1722391411', t: 'check', req: true, label: AGE_VALUE, value: AGE_VALUE },
         { k: 'privacidad', entry: '1691924798', t: 'check', req: true, label: PRIVACY_VALUE, value: PRIVACY_VALUE, links: true },
         { k: 'marketing', entry: '672836837', t: 'check', req: false, label: 'Quiero recibir novedades, recursos y comunicaciones de OFM TOP.', value: MARKETING_VALUE },
@@ -221,12 +225,12 @@ export const CONFIG = Object.freeze({
       guide: 'Cómo construir un proyecto de modelo virtual con IA',
       guideHref: '/ofm/modelos-ia',
       fields: [
-        { k: 'nombre', entry: '1019620434', t: 'text', label: 'Nombre', ac: 'name', req: true },
-        { k: 'email', entry: '1898824334', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '981713866', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
-        { k: 'instagram', entry: '834930237', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
-        { k: 'x', entry: '128875942', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
-        { k: 'threads', entry: '393995277', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'nombre', entry: '136592226', t: 'text', label: 'Nombre', ac: 'name', req: true },
+        { k: 'email', entry: '29896367', t: 'email', label: 'Email', ac: 'email', req: true },
+        { k: 'whatsapp', entry: '1618960674', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'instagram', entry: '1332033809', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
+        { k: 'x', entry: '570249247', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
+        { k: 'threads', entry: '1599872740', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
         {
           k: 'situacion', entry: '998920143', t: 'select', req: true,
           label: '¿Cuál describe mejor tu situación actual?', ph: 'Elige una opción',
@@ -234,7 +238,7 @@ export const CONFIG = Object.freeze({
         },
         { k: 'experiencia', entry: '566772433', t: 'select', req: true, label: '¿Qué experiencia tienes?', ph: 'Elige una opción', options: EXP_OPTIONS },
         { k: 'audiencia', entry: '795784272', t: 'select', req: true, label: '¿Tienes actualmente audiencia o tráfico?', ph: 'Elige una opción', options: AUDIENCE_OPTIONS },
-        { k: 'objetivo', entry: '246811380', t: 'textarea', req: true, label: '¿Qué quieres conseguir aprendiendo OFM?', ph: 'Cuéntalo brevemente' },
+        { k: 'objetivo', entry: '1552613995', t: 'textarea', req: true, label: '¿Qué quieres conseguir aprendiendo OFM?', ph: 'Cuéntalo brevemente' },
         { k: 'edad', entry: '990780070', t: 'check', req: true, label: AGE_VALUE, value: AGE_VALUE },
         { k: 'privacidad', entry: '792280431', t: 'check', req: true, label: PRIVACY_VALUE, value: PRIVACY_VALUE, links: true },
         { k: 'marketing', entry: '1368357081', t: 'check', req: false, label: 'Quiero recibir novedades, recursos y comunicaciones de OFM TOP.', value: MARKETING_VALUE },

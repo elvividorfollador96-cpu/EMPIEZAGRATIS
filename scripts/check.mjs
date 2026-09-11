@@ -203,6 +203,29 @@ for (const [p, key] of formChecks) {
   if (html.includes('/edit')) fail(`${p}: se detectó un enlace /edit (prohibido)`);
 }
 
+console.log('── Relé /api/lead ────────────────────────');
+{
+  const r405 = await get('/api/lead');
+  if (r405.status === 405) pass('GET /api/lead → 405 (solo POST)');
+  else fail(`GET /api/lead → ${r405.status} (esperaba 405)`);
+  const post = async (body) =>
+    worker.fetch(new Request(BASE + '/api/lead', { method: 'POST', body }), env, {});
+  const r1 = await post('{mal');
+  if (r1.status === 400) pass('POST JSON inválido → 400');
+  else fail(`POST JSON inválido → ${r1.status}`);
+  const r2 = await post(JSON.stringify({ key: 'nope', values: [['1', 'x']] }));
+  if (r2.status === 400) pass('POST formulario desconocido → 400');
+  else fail(`POST form desconocido → ${r2.status}`);
+  const r3 = await post(JSON.stringify({ key: 'empezar', values: [['999', 'x']] }));
+  if (r3.status === 400) pass('POST entry fuera de whitelist → 400');
+  else fail(`POST entry ajeno → ${r3.status}`);
+  const r4 = await post(
+    JSON.stringify({ key: 'empezar', values: [['219114604', 'x']] }),
+  );
+  if (r4.status === 400) pass('POST sin 18+/privacidad → 400 (legal)');
+  else fail(`POST sin consentimientos → ${r4.status}`);
+}
+
 console.log('── Experiencia del formulario ────────────');
 for (const p of ['/', '/creadoras', '/ofm', '/creadoras/empezar', '/ofm/modelos-ia']) {
   const { html } = htmlByPath[p] || { html: '' };

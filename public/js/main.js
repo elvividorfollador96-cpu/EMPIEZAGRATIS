@@ -483,17 +483,51 @@
       return { data, firstBad };
     };
 
+    /* Construye el cuerpo EXACTO que espera formResponse:
+       entry.<id>=valor + entry.<id>_sentinel vacío (selecciones/casillas)
+       + fvv + pageHistory + partialResponse + fbzx + submissionTimestamp. */
+    const buildBody = (F, data, fbzx) => {
+      const params = new URLSearchParams();
+      for (const [entry, value] of data) params.append(`entry.${entry}`, value);
+      for (const f of F.fields) {
+        if (f.t === 'select' || f.t === 'check') params.append(`entry.${f.entry}_sentinel`, '');
+      }
+      params.append('fvv', '1');
+      params.append('pageHistory', '0');
+      params.append('partialResponse', `[null,null,"${fbzx}"]`);
+      params.append('fbzx', fbzx);
+      params.append('submissionTimestamp', String(Date.now()));
+      return params.toString();
+    };
+
+    const randomFbzx = () => String(Date.now()) + String(Math.floor(Math.random() * 1e6));
+
     const sendForm = (F, data) => {
       // Atribución UTM → campos ocultos del CRM si existen (utmEntries).
       for (const [k, entry] of Object.entries(F.utmEntries || {})) {
         if (entry && utm[k]) data.push([entry, String(utm[k]).slice(0, 200)]);
       }
-      return fetch(F.action, {
+      const body = buildBody(F, data, randomFbzx());
+      // 1) Relé propio (POST /api/lead): el Worker confirma de verdad el
+      //    registro leyendo la página de confirmación de Google.
+      return fetch('/api/lead', {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: new URLSearchParams(data).toString(),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: currentForm, values: data }),
+      })
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error('relay'))))
+        .then((j) => {
+          if (!j || j.ok !== true) throw new Error('not_confirmed');
+        })
+        .catch(() =>
+          // 2) Respaldo directo desde el navegador (sin CORS, mismo backend).
+          fetch(F.action + '?embedded=true', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body,
+          }).then(() => undefined),
+        );
     };
 
     bodyEl.addEventListener('submit', (e) => {

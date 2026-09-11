@@ -19,6 +19,7 @@ import {
   sitemapXml,
   cacheControlFor,
 } from './utils.js';
+import { handleLeadPost } from './leadproxy.js';
 
 function security() {
   return securityHeaders();
@@ -41,6 +42,22 @@ async function notFound(pathname) {
 
 export default {
   async fetch(request, env) {
+    // 0) Relé de leads (POST /api/lead): guarda las respuestas en el
+    //    Google Form original (Google Sheets sigue siendo el CRM).
+    const leadUrl = new URL(request.url);
+    if (leadUrl.pathname === '/api/lead') {
+      if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ ok: false, error: 'method' }), {
+          status: 405,
+          headers: { 'Content-Type': 'application/json; charset=utf-8', Allow: 'POST', ...security() },
+        });
+      }
+      const lead = await handleLeadPost(request);
+      const out = new Headers(lead.headers);
+      for (const [k, v] of Object.entries(security())) out.set(k, v);
+      return new Response(lead.body, { status: lead.status, headers: out });
+    }
+
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', {
         status: 405,
