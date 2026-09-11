@@ -312,9 +312,9 @@ p {
      conserva exactamente las mismas dimensiones exteriores (overflow:hidden)
      y solo se escala la imagen interna. Origen = centro óptico real del
      lockup "OFM TOP" (51.5%/51.9%, medido sobre el PNG 2000×2000) y zoom
-     2.2 → el lockup llena el ~84% del diámetro: grande pero sin recortar
+     2 → el lockup llena el ~76% del diámetro: grande pero sin recortar
      las puntas de la M ni del paralelogramo (a partir de ~2.3 se cortan). */
-  transform: scale(var(--logo-zoom, 2.2));
+  transform: scale(var(--logo-zoom, 2));
   transform-origin: 51.5% 51.9%;
 }
 .logo-mark-sm {
