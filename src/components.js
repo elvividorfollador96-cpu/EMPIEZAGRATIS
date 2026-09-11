@@ -39,6 +39,32 @@ export function heroBg(base) {
   );
 }
 
+/**
+ * Hero de página con oferta de guía (mismo estilo en todo el sitio):
+ * fondo fotográfico + badge GUÍA GRATUITA + titular + subtítulo + CTA.
+ * external: true si el CTA sale a un formulario (target _blank + noopener).
+ */
+export function guideHero({ bg, crumbs, title, sub, ctaHref, ctaLabel, external = false }) {
+  const icon = external ? ` ${ICONS.external}` : '';
+  const ext = external ? ' target="_blank" rel="noopener"' : '';
+  return (
+    `<section class="hero ofm-hero">` +
+    heroBg(bg) +
+    `  <div class="container">` +
+    breadcrumb(crumbs) +
+    `    <div data-reveal>` +
+    `      <p class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>Guía gratuita</p>` +
+    `      <h1 id="page-title" class="hero-title">${title}</h1>` +
+    `      <p class="hero-sub">${sub}</p>` +
+    `      <div class="hero-actions">` +
+    `        <a class="btn btn-primary btn-lg" href="${ctaHref}"${ext}>${ctaLabel}${icon}</a>` +
+    `      </div>` +
+    `    </div>` +
+    `  </div>` +
+    `</section>`
+  );
+}
+
 /** Iconos inline (mínimos, sin dependencias). */
 export const ICONS = {
   external:

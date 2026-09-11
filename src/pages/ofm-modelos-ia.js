@@ -1,4 +1,5 @@
-import { breadcrumb, leadPanel, topicsList, ICONS, heroBg, picture } from '../components.js';
+import { CONFIG } from '../config.js';
+import { guideHero, ICONS, leadPanel, topicsList } from '../components.js';
 
 const TOPICS = [
   { n: '01', t: 'Concepto de modelo virtual', d: 'Qué es, qué es viable hoy y qué expectativas son realistas.' },
@@ -23,29 +24,20 @@ export default {
   },
   content() {
     return (
-      `<section class="page-hero">` +
-      heroBg('gen-modelo-virtual') +
-      `  <div class="container">` +
-      breadcrumb([
-        { href: '/', label: 'Inicio' },
-        { href: '/ofm', label: 'OFM' },
-        { label: 'Modelos IA' },
-      ]) +
-      `    <div data-reveal>` +
-      `      <p class="eyebrow">OFM · Modelos IA</p>` +
-      `      <h1 id="page-title">Construye un proyecto de modelo virtual con IA</h1>` +
-      `      <p class="page-sub">De la identidad del personaje al escalado del proyecto: la estructura completa para construir un modelo virtual con IA.</p>` +
-      `      <div class="page-visual" data-reveal>` +
-      picture({
-        base: 'gen-modelo-virtual',
-        alt: 'Monitor con una retícula de variaciones del mismo modelo virtual generadas con IA',
-        width: 1000,
-        height: 666,
+      // HERO: badge GUÍA GRATUITA + titular + CTA al formulario
+      guideHero({
+        bg: 'gen-modelo-virtual',
+        crumbs: [
+          { href: '/', label: 'Inicio' },
+          { href: '/ofm', label: 'OFM' },
+          { label: 'Modelos IA' },
+        ],
+        title: 'Construye un proyecto de modelo virtual con IA',
+        sub: 'De la identidad del personaje al escalado del proyecto: la estructura completa para construir un modelo virtual con IA.',
+        ctaHref: CONFIG.forms.modelosIA,
+        ctaLabel: 'Quiero la guía gratis',
+        external: true,
       }) +
-      `      </div>` +
-      `    </div>` +
-      `  </div>` +
-      `</section>` +
       `<section class="section">` +
       `  <div class="container container-narrow">` +
       topicsList(TOPICS) +

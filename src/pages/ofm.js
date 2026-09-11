@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { breadcrumb, guideCard, ICONS, heroBg } from '../components.js';
+import { guideCard, guideHero, ICONS } from '../components.js';
 
 /** Bloques de aprendizaje (sin descripciones inventadas: número + concepto). */
 const LEARN = [
@@ -30,23 +30,17 @@ export default {
 
     return (
       // HERO: badge GUÍA GRATUITA + titular + CTA con fondo fotográfico
-      `<section class="hero ofm-hero">` +
-      heroBg('direccion-modelo-virtual') +
-      `  <div class="container">` +
-      breadcrumb([
-        { href: '/', label: 'Inicio' },
-        { label: 'OFM' },
-      ]) +
-      `    <div data-reveal>` +
-      `      <p class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>Guía gratuita</p>` +
-      `      <h1 id="page-title" class="hero-title">Aprende a construir tu proyecto OFM</h1>` +
-      `      <p class="hero-sub">Aprende cómo funciona el mundo OFM, qué necesitas para empezar y cómo estructurar un proyecto desde cero.</p>` +
-      `      <div class="hero-actions">` +
-      `        <a class="btn btn-primary btn-lg" href="#guias">Ver las guías gratis</a>` +
-      `      </div>` +
-      `    </div>` +
-      `  </div>` +
-      `</section>` +
+      guideHero({
+        bg: 'direccion-modelo-virtual',
+        crumbs: [
+          { href: '/', label: 'Inicio' },
+          { label: 'OFM' },
+        ],
+        title: 'Aprende a construir tu proyecto OFM',
+        sub: 'Aprende cómo funciona el mundo OFM, qué necesitas para empezar y cómo estructurar un proyecto desde cero.',
+        ctaHref: '#guias',
+        ctaLabel: 'Ver las guías gratis',
+      }) +
       // GUÍAS GRATUITAS: dos tarjetas con imagen y CTA al formulario
       `<section class="section" id="guias" aria-labelledby="guias-title">` +
       `  <div class="container">` +

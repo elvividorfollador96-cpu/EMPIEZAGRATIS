@@ -1,4 +1,5 @@
-import { breadcrumb, leadPanel, topicsList, heroBg, picture } from '../components.js';
+import { CONFIG } from '../config.js';
+import { guideHero, leadPanel, topicsList } from '../components.js';
 
 const TOPICS = [
   { n: '01', t: 'Preparación', d: 'La base del proyecto antes de publicar: perfil, presentación y expectativas realistas.' },
@@ -21,29 +22,20 @@ export default {
   },
   content() {
     return (
-      `<section class="page-hero">` +
-      heroBg('creacion-empezar') +
-      `  <div class="container">` +
-      breadcrumb([
-        { href: '/', label: 'Inicio' },
-        { href: '/creadoras', label: 'Creadoras' },
-        { label: 'Empezar' },
-      ]) +
-      `    <div data-reveal>` +
-      `      <p class="eyebrow">Creadoras · Empezar</p>` +
-      `      <h1 id="page-title">Tu primer mes en OnlyFans</h1>` +
-      `      <p class="page-sub">Una guía para entender qué hacer durante tus primeros pasos y evitar empezar sin dirección.</p>` +
-      `      <div class="page-visual" data-reveal>` +
-      picture({
-        base: 'creacion-empezar',
-        alt: 'Escritorio de creadora en casa: móvil en trípode con aro de luz, libreta de notas y té',
-        width: 1000,
-        height: 666,
+      // HERO: badge GUÍA GRATUITA + titular + CTA al formulario
+      guideHero({
+        bg: 'creacion-empezar',
+        crumbs: [
+          { href: '/', label: 'Inicio' },
+          { href: '/creadoras', label: 'Creadoras' },
+          { label: 'Empezar' },
+        ],
+        title: 'Tu primer mes en OnlyFans',
+        sub: 'Una guía para entender qué hacer durante tus primeros pasos y evitar empezar sin dirección.',
+        ctaHref: CONFIG.forms.empezar,
+        ctaLabel: 'Quiero la guía gratis',
+        external: true,
       }) +
-      `      </div>` +
-      `    </div>` +
-      `  </div>` +
-      `</section>` +
       `<section class="section">` +
       `  <div class="container container-narrow">` +
       topicsList(TOPICS) +

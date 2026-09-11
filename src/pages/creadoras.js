@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { breadcrumb, guideCard, ICONS, heroBg } from '../components.js';
+import { guideCard, guideHero, ICONS } from '../components.js';
 
 /** Bloques de aprendizaje (comunes a las dos guías de creadoras). */
 const LEARN = [
@@ -30,23 +30,17 @@ export default {
 
     return (
       // HERO: badge GUÍA GRATUITA + titular + CTA con fondo fotográfico
-      `<section class="hero ofm-hero">` +
-      heroBg('creacion-empezar') +
-      `  <div class="container">` +
-      breadcrumb([
-        { href: '/', label: 'Inicio' },
-        { label: 'Creadoras' },
-      ]) +
-      `    <div data-reveal>` +
-      `      <p class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>Guía gratuita</p>` +
-      `      <h1 id="page-title" class="hero-title">Tu proyecto empieza aquí</h1>` +
-      `      <p class="hero-sub">Da el primer paso o encuentra una estructura para llevar tu cuenta al siguiente nivel.</p>` +
-      `      <div class="hero-actions">` +
-      `        <a class="btn btn-primary btn-lg" href="#guias">Ver las guías gratis</a>` +
-      `      </div>` +
-      `    </div>` +
-      `  </div>` +
-      `</section>` +
+      guideHero({
+        bg: 'creacion-empezar',
+        crumbs: [
+          { href: '/', label: 'Inicio' },
+          { label: 'Creadoras' },
+        ],
+        title: 'Tu proyecto empieza aquí',
+        sub: 'Da el primer paso o encuentra una estructura para llevar tu cuenta al siguiente nivel.',
+        ctaHref: '#guias',
+        ctaLabel: 'Ver las guías gratis',
+      }) +
       // GUÍAS GRATUITAS: dos tarjetas con imagen y CTA al formulario
       `<section class="section" id="guias" aria-labelledby="guias-title">` +
       `  <div class="container">` +
