@@ -102,7 +102,7 @@ export function header(active = '') {
     navLink('/ofm', 'OFM', 'ofm') +
     `    </nav>` +
     `    <div class="nav-actions">` +
-    `      <a class="btn btn-primary btn-sm" href="#guia-gratis" data-form-choice="creadoras">Empezar</a>` +
+    `      <a class="btn btn-primary btn-sm" href="#guia-gratis" data-form-choice="todos">Empezar</a>` +
     `      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">` +
     `        <span class="bar"></span><span class="bar"></span>` +
     `      </button>` +
@@ -119,7 +119,7 @@ export function mobileMenu() {
     `    <a class="mobile-link" href="/creadoras">Creadoras<span>Empezar o escalar tu cuenta</span></a>` +
     `    <a class="mobile-link" href="/ofm">OFM<span>Aprende a construir proyectos</span></a>` +
     `  </nav>` +
-    `  <a class="btn btn-primary btn-lg" href="#guia-gratis" data-form-choice="creadoras">Quiero mi guía gratis</a>` +
+    `  <a class="btn btn-primary btn-lg" href="#guia-gratis" data-form-choice="todos">Quiero mi guía gratis</a>` +
     `  <div class="mobile-menu-foot">` +
     `    <span class="socials">` +
     `      <a href="${CONFIG.social.instagram}" target="_blank" rel="noopener">Instagram</a>` +

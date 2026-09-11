@@ -282,6 +282,21 @@ test('formularios integrados: el CTA abre el modal de OFM TOP, nunca Google Form
   assert.ok(modal.querySelector('[data-lf-state="ok"] a.btn'), 'CTA de éxito (Descargar la guía)');
 });
 
+test('botón Empezar: muestra los 4 caminos (Creadoras + OFM)', async () => {
+  if (!globalThis.requestAnimationFrame) globalThis.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+  const { doc, win } = await pageDoc('/');
+  const btn = doc.querySelector('[data-form-choice="todos"]');
+  assert.ok(btn, 'botón global presente');
+  btn.dispatchEvent(new win.MouseEvent('click', { bubbles: true, cancelable: true }));
+  const modal = doc.getElementById('lead-modal');
+  assert.equal(modal.hidden, false, 'el selector se abre');
+  const choices = modal.querySelectorAll('.lf-choice');
+  assert.equal(choices.length, 4, '4 opciones (2 Creadoras + 2 OFM)');
+  const labels = [...choices].map((c) => c.querySelector('.lf-choice-label').textContent);
+  assert.deepEqual(labels, ['Empezar en OnlyFans', 'Crecer y escalar', 'Modelos reales', 'Modelos IA']);
+  assert.ok([...choices].some((c) => c.textContent.includes('OFM')), 'etiqueta OFM presente en el selector');
+});
+
 test('legal: datos oficiales completos, sin placeholders', async () => {
   for (const p of ['/legal/privacidad', '/legal/aviso-legal', '/legal/cookies']) {
     const { doc } = await pageDoc(p);

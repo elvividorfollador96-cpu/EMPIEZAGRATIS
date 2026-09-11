@@ -2087,3 +2087,20 @@ select.lf-input option {
   .magnet-block { padding: 20px 16px; }
   .magnet-toc-links a { font-size: 14px; }
 }
+
+/* Selector con los cuatro caminos: separación visual Creadoras / OFM */
+.lf-choices-all .lf-choice:nth-child(3) {
+  margin-top: 10px;
+  position: relative;
+}
+.lf-choices-all .lf-choice:nth-child(3)::before {
+  content: "QUIERO SER OFM";
+  position: absolute;
+  top: -18px;
+  left: 2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}

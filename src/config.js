@@ -82,7 +82,7 @@ export const CONFIG = Object.freeze({
    * en cada despliegue (así el cliente nunca mezcla HTML nuevo con JS viejo).
    * Súbela (cualquier string distinto) cuando cambies styles.css o main.js.
    */
-  assetVersion: '2026.09.11-8',
+  assetVersion: '2026.09.11-9',
 
   /**
    * Fuente única del logo en toda la web.
@@ -246,6 +246,13 @@ export const CONFIG = Object.freeze({
       { key: 'escalar', label: 'Crecer y escalar', desc: 'Ya tengo cuenta y quiero crecer' },
     ]),
     ofm: Object.freeze([
+      { key: 'reales', label: 'Modelos reales', desc: 'OFM desde cero con creadoras reales' },
+      { key: 'ia', label: 'Modelos IA', desc: 'Proyecto de modelo virtual con IA' },
+    ]),
+    // Botón global "Empezar" (header/menú móvil): los cuatro caminos
+    todos: Object.freeze([
+      { key: 'empezar', label: 'Empezar en OnlyFans', desc: 'Todavía no tengo cuenta o estoy empezando' },
+      { key: 'escalar', label: 'Crecer y escalar', desc: 'Ya tengo cuenta y quiero crecer' },
       { key: 'reales', label: 'Modelos reales', desc: 'OFM desde cero con creadoras reales' },
       { key: 'ia', label: 'Modelos IA', desc: 'Proyecto de modelo virtual con IA' },
     ]),

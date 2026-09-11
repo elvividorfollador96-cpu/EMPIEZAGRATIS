@@ -367,7 +367,7 @@
         `  <p class="lf-eyebrow">Guía gratis</p>` +
         `  <h2 class="lf-title" id="lf-title">Elige tu guía gratuita</h2>` +
         `  <p class="lf-sub">Las dos opciones son gratis. Elige la tuya y rellenas el formulario aquí mismo.</p>` +
-        `  <div class="lf-choices">` +
+        `  <div class="lf-choices${items.length > 2 ? ' lf-choices-all' : ''}">` +
         items
           .map((it) => {
             const F = FORMS[it.key];
