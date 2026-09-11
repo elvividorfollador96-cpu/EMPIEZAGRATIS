@@ -43,8 +43,8 @@ function head({ title, description, canonical, noindex = false }) {
     // Rendimiento
     `<link rel="preconnect" href="https://raw.githubusercontent.com">` +
     `<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-400-normal.woff2" crossorigin>` +
-    `<link rel="stylesheet" href="/css/styles.css?v=' + CONFIG.assetVersion + '">` +
-    `<script type="module" src="/js/main.js?v=' + CONFIG.assetVersion + '"></script>` +
+    `<link rel="stylesheet" href="/css/styles.css?v=${CONFIG.assetVersion}">` +
+    `<script type="module" src="/js/main.js?v=${CONFIG.assetVersion}"></script>` +
     `</head>`
   );
 }
