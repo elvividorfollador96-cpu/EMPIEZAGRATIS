@@ -15,6 +15,7 @@ import ofmModelosIA from './pages/ofm-modelos-ia.js';
 import legalPrivacidad from './pages/legal-privacidad.js';
 import legalAviso from './pages/legal-aviso.js';
 import legalCookies from './pages/legal-cookies.js';
+import guias from './pages/guias.js';
 
 const PAGES = [
   home,
@@ -27,6 +28,7 @@ const PAGES = [
   legalPrivacidad,
   legalAviso,
   legalCookies,
+  ...guias,
 ];
 
 export function getRoute(pathname) {

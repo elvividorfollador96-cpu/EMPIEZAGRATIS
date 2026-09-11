@@ -346,11 +346,9 @@
         `<div class="lf-state lf-state-ok" data-lf-state="ok" hidden>` +
         `  <span class="lf-ok-icon">${ICON_OK}</span>` +
         `  <h2 class="lf-title" id="lf-title-ok" tabindex="-1">Perfecto. Hemos recibido tus datos.</h2>` +
-        `  <p class="lf-sub">Tu guía gratuita está lista.</p>` +
+        `  <p class="lf-sub">Tu recurso está listo.</p>` +
         `  <p class="lf-ok-guide">«${escL(F.guide)}»</p>` +
-        (F.guideFile
-          ? `  <a class="btn btn-primary btn-lg btn-block btn-caps" href="${escL(F.guideFile)}" download>Descargar la guía</a>`
-          : `  <a class="btn btn-primary btn-lg btn-block btn-caps" href="${escL(F.guideHref)}">Descargar la guía</a>`) +
+        `  <a class="btn btn-primary btn-lg btn-block btn-caps" href="${escL(F.guideHref)}">Acceder a la guía</a>` +
         `  <a class="btn btn-ghost btn-block" href="/ofm">Conocer OFM TOP</a>` +
         `</div>` +
         `<div class="lf-state" data-lf-state="frame" hidden>` +

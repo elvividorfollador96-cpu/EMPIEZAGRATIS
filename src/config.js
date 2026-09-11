@@ -38,7 +38,7 @@ const FORM_VIEW = (id) => `${FORMS_BASE}/${id}/viewform`;
  * desplegables y de las casillas son EXACTAMENTE las del formulario: si
  * cambian allí, deben cambiarse aquí.
  */
-function makeForm({ id, kind, kindLabel, guide, guideHref, guideFile = null, fields }) {
+function makeForm({ id, kind, kindLabel, guide, guideHref, fields }) {
   return {
     id,
     /** Endpoint receptor (POST). No cambia sin verificar el formulario. */
@@ -49,16 +49,6 @@ function makeForm({ id, kind, kindLabel, guide, guideHref, guideFile = null, fie
     kindLabel,
     /** Guía que recibe el usuario (para el estado de éxito). */
     guide,
-    /**
-     * Archivo de la guía para el botón «Descargar la guía» del estado de
-     * éxito. Hoy no existe ninguna: se deja null y el botón lleva al
-     * temario (guideHref). Cuando tengas las guías, súbelas a public/guias/
-     * y pon aquí la ruta, p. ej. guideFile: '/guias/tu-primer-mes-en-onlyfans.pdf'
-     * → el botón «Descargar la guía» las servirá directamente del propio sitio
-     * con descarga (atributo download). Mientras sea null, el botón lleva al
-     * temario de la guía (guideHref).
-     */
-    guideFile,
     /** Destino del CTA "Acceder a la guía" tras el envío. */
     guideHref,
     /** Atribución UTM → entry del CRM. Vacío hasta crear los campos ocultos. */
@@ -92,7 +82,7 @@ export const CONFIG = Object.freeze({
    * en cada despliegue (así el cliente nunca mezcla HTML nuevo con JS viejo).
    * Súbela (cualquier string distinto) cuando cambies styles.css o main.js.
    */
-  assetVersion: '2026.09.11-6',
+  assetVersion: '2026.09.11-7',
 
   /**
    * Fuente única del logo en toda la web.
@@ -129,11 +119,11 @@ export const CONFIG = Object.freeze({
       kind: 'creadoras',
       kindLabel: 'Creadoras',
       guide: 'Tu primer mes en OnlyFans',
-      guideHref: '/creadoras/empezar',
+      guideHref: '/guia/primer-mes-en-onlyfans',
       fields: [
         { k: 'nombre', entry: '219114604', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '641949080', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '339272321', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'whatsapp', entry: '339272321', t: 'tel', label: 'Teléfono', ac: 'tel', req: true },
         { k: 'instagram', entry: '849634385', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
         { k: 'x', entry: '887390921', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
         { k: 'threads', entry: '639254078', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
@@ -162,11 +152,11 @@ export const CONFIG = Object.freeze({
       kind: 'creadoras',
       kindLabel: 'Creadoras',
       guide: 'Cómo crecer y escalar una cuenta de OnlyFans',
-      guideHref: '/creadoras/escalar',
+      guideHref: '/guia/como-crecer-y-escalar',
       fields: [
         { k: 'nombre', entry: '1936279882', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '450818698', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '1341616637', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'whatsapp', entry: '1341616637', t: 'tel', label: 'Teléfono', ac: 'tel', req: true },
         { k: 'instagram', entry: '1138137799', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
         { k: 'x', entry: '883992362', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
         { k: 'threads', entry: '1438551729', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
@@ -195,11 +185,11 @@ export const CONFIG = Object.freeze({
       kind: 'ofm',
       kindLabel: 'OFM',
       guide: 'OFM desde cero: modelos reales',
-      guideHref: '/ofm/modelos-reales',
+      guideHref: '/guia/ofm-desde-cero-modelos-reales',
       fields: [
         { k: 'nombre', entry: '1043066242', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '406570008', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '1609442940', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'whatsapp', entry: '1609442940', t: 'tel', label: 'Teléfono', ac: 'tel', req: true },
         { k: 'instagram', entry: '14114265', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
         { k: 'x', entry: '626445657', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
         { k: 'threads', entry: '2016613135', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },
@@ -223,11 +213,11 @@ export const CONFIG = Object.freeze({
       kind: 'ofm',
       kindLabel: 'OFM',
       guide: 'Cómo construir un proyecto de modelo virtual con IA',
-      guideHref: '/ofm/modelos-ia',
+      guideHref: '/guia/modelo-virtual-con-ia',
       fields: [
         { k: 'nombre', entry: '136592226', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '29896367', t: 'email', label: 'Email', ac: 'email', req: true },
-        { k: 'whatsapp', entry: '1618960674', t: 'tel', label: 'WhatsApp / teléfono', ac: 'tel', req: true, hint: 'Te enviaremos la guía por aquí' },
+        { k: 'whatsapp', entry: '1618960674', t: 'tel', label: 'Teléfono', ac: 'tel', req: true },
         { k: 'instagram', entry: '1332033809', t: 'text', label: 'Instagram', ac: 'off', hint: 'Opcional', ph: 'tuusuario', g: 'more' },
         { k: 'x', entry: '570249247', t: 'text', label: 'X / Twitter', ac: 'off', hint: 'Opcional', g: 'more' },
         { k: 'threads', entry: '1599872740', t: 'text', label: 'Threads', ac: 'off', hint: 'Opcional', g: 'more' },

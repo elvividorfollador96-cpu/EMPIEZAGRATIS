@@ -70,6 +70,10 @@ const PAGES = [
   ['/ofm', 200],
   ['/ofm/modelos-reales', 200],
   ['/ofm/modelos-ia', 200],
+  ['/guia/primer-mes-en-onlyfans', 200],
+  ['/guia/como-crecer-y-escalar', 200],
+  ['/guia/ofm-desde-cero-modelos-reales', 200],
+  ['/guia/modelo-virtual-con-ia', 200],
   ['/legal/privacidad', 200],
   ['/legal/aviso-legal', 200],
   ['/legal/cookies', 200],
@@ -201,6 +205,9 @@ for (const [p, key] of formChecks) {
   else fail(`${p}: faltan entry.* → ${missing.join(', ')}`);
   // Enlaces /edit prohibidos
   if (html.includes('/edit')) fail(`${p}: se detectó un enlace /edit (prohibido)`);
+  // El CTA de éxito debe llevar a la página lead magnet correspondiente
+  if (html.includes(form.guideHref)) pass(`${p}: pantalla de éxito → ${form.guideHref}`);
+  else fail(`${p}: falta el enlace al lead magnet ${form.guideHref}`);
 }
 
 console.log('── Relé /api/lead ────────────────────────');
@@ -290,8 +297,8 @@ console.log('── robots + sitemap ──────────────�
   else fail('robots.txt sin sitemap');
   const sitemap = await (await get('/sitemap.xml')).text();
   const locs = sitemap.match(/<loc>([^<]*)<\/loc>/g) || [];
-  if (locs.length === 10) pass(`sitemap con ${locs.length} URLs`);
-  else fail(`sitemap con ${locs.length} URLs (esperado 10)`);
+  if (locs.length === 14) pass(`sitemap con ${locs.length} URLs`);
+  else fail(`sitemap con ${locs.length} URLs (esperado 14)`);
   const bad = locs.filter((l) => !l.includes(BASE)).length;
   if (bad === 0) pass('todas las URLs del sitemap usan el dominio oficial');
   else fail(`${bad} URLs del sitemap sin el dominio oficial`);

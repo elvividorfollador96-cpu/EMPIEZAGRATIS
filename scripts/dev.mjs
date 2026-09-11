@@ -61,9 +61,15 @@ const server = http.createServer(async (req, res) => {
     for (const [key, value] of Object.entries(req.headers)) {
       headers[key] = value;
     }
+    // Reenvía el cuerpo de POST/PUT (necesario p. ej. para /api/lead).
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const body = chunks.length ? Buffer.concat(chunks) : undefined;
     const request = new Request(`http://localhost:${port}${req.url}`, {
       method: req.method,
       headers,
+      body,
+      duplex: body ? 'half' : undefined,
     });
     const response = await worker.fetch(request, env, {});
     const outHeaders = {};
