@@ -10,6 +10,7 @@
     "check": "node scripts/check.mjs",
     "test": "node --test test/smoke.test.mjs",
     "deploy": "wrangler deploy",
+    "build:static": "node scripts/build-static.mjs",
     "lint:html": "node scripts/html-validate.mjs"
   },
   "devDependencies": {

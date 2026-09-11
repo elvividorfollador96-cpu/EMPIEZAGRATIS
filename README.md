@@ -13,7 +13,7 @@ dependencia externa en runtime es la imagen del logo (GitHub raw).
 
 ```
 ├── wrangler.jsonc          # Configuración del Worker (name = empiezagratis)
-├── package.json            # Scripts: dev, dev:node, check, test, deploy
+├── package.json            # Scripts: dev, dev:node, check, test, deploy, build:static
 ├── 1.png                   # Logo original (fuente de la URL raw oficial)
 ├── public/                 # Estáticos (servidos vía env.ASSETS)
 │   ├── css/styles.css      # Sistema de diseño completo
@@ -85,6 +85,21 @@ CLOUDFLARE_API_TOKEN=xxx CF_ACCOUNT_ID=yyy npx wrangler deploy
 > `wrangler.jsonc` no incluye `account_id` a propósito (no es un secreto que
 > quieras versionar). Añádelo al archivo o pásalo por `CF_ACCOUNT_ID` /
 > `--account-id` en tu entorno de despliegue.
+
+## GitHub Pages (espejo estático)
+
+Además del Worker, existe un mirror estático en
+`https://elvividorfollador96-cpu.github.io/EMPIEZAGRATIS/` (GitHub Pages,
+rama `main`, carpeta `/docs`). GitHub Pages no ejecuta Workers, así que
+`docs/` contiene las mismas páginas pre-renderizadas a HTML estático:
+
+```bash
+npm run build:static   # regenera docs/ (prefijo /EMPIEZAGRATIS)
+```
+
+Tras cambiar páginas o estáticos, regenera `docs/` y commitea el resultado
+para que el mirror se mantenga en sync. El sitio oficial (SEO, canonicals y
+sitemap) sigue siendo el de Cloudflare Workers.
 
 ## Configuración central
 
