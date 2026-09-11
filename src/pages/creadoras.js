@@ -1,16 +1,36 @@
-import { breadcrumb, heroBg, picture } from '../components.js';
+import { CONFIG } from '../config.js';
+import { breadcrumb, guideCard, ICONS, heroBg } from '../components.js';
+
+/** Bloques de aprendizaje (comunes a las dos guías de creadoras). */
+const LEARN = [
+  { n: '01', t: 'Preparación' },
+  { n: '02', t: 'Posicionamiento' },
+  { n: '03', t: 'Contenido' },
+  { n: '04', t: 'Tráfico' },
+  { n: '05', t: 'Conversión' },
+  { n: '06', t: 'Organización' },
+];
 
 export default {
   path: '/creadoras',
   seo: {
-    title: 'Creadoras · OFM TOP — Tu proyecto empieza aquí',
+    title: 'Guías gratuitas para creadoras · OFM TOP — Tu proyecto empieza aquí',
     description:
-      'Empezar en OnlyFans o crecer y escalar una cuenta existente. Encuentra el recurso adecuado según tu punto de partida.',
+      'Consigue gratis una guía para creadoras: empieza en OnlyFans desde cero o crece y escala una cuenta activa con tráfico, conversión y estructura.',
     headingId: 'page-title',
   },
   content() {
+    const learn = LEARN.map(
+      (l, i) =>
+        `<li class="learn-item d${(i % 4) + 1}" data-reveal>` +
+        `<span class="learn-n" aria-hidden="true">${l.n}</span>` +
+        `<h3>${l.t}</h3>` +
+        `</li>`,
+    ).join('\n');
+
     return (
-      `<section class="page-hero">` +
+      // HERO: badge GUÍA GRATUITA + titular + CTA con fondo fotográfico
+      `<section class="hero ofm-hero">` +
       heroBg('creacion-empezar') +
       `  <div class="container">` +
       breadcrumb([
@@ -18,49 +38,75 @@ export default {
         { label: 'Creadoras' },
       ]) +
       `    <div data-reveal>` +
-      `      <p class="eyebrow">Creadoras</p>` +
-      `      <h1 id="page-title">Tu proyecto empieza aquí.</h1>` +
-      `      <p class="page-sub">Da el primer paso o encuentra una estructura para llevar tu cuenta al siguiente nivel.</p>` +
+      `      <p class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>Guía gratuita</p>` +
+      `      <h1 id="page-title" class="hero-title">Tu proyecto empieza aquí</h1>` +
+      `      <p class="hero-sub">Da el primer paso o encuentra una estructura para llevar tu cuenta al siguiente nivel.</p>` +
+      `      <div class="hero-actions">` +
+      `        <a class="btn btn-primary btn-lg" href="#guias">Ver las guías gratis</a>` +
+      `      </div>` +
       `    </div>` +
       `  </div>` +
       `</section>` +
-      `<section class="section">` +
+      // GUÍAS GRATUITAS: dos tarjetas con imagen y CTA al formulario
+      `<section class="section" id="guias" aria-labelledby="guias-title">` +
       `  <div class="container">` +
+      `    <div class="section-head section-head-center" data-reveal>` +
+      `      <p class="eyebrow">Elige tu punto de partida</p>` +
+      `      <h2 id="guias-title" class="h2-caps">Guías gratuitas</h2>` +
+      `      <p class="section-lead">Elige el punto de partida que encaja contigo y recibe nuestra guía gratuita.</p>` +
+      `    </div>` +
       `    <div class="guide-grid">` +
-      `      <article class="guide-card d1" data-reveal>` +
-      `        <div class="guide-media">` +
-      `          <span class="guide-chip">Guía gratis</span>` +
-      picture({
-        base: 'creacion-empezar',
+      guideCard({
+        media: 'creacion-empezar',
         alt: 'Escritorio de creadora en casa: móvil en trípode con aro de luz, libreta de notas y té',
-        width: 1000,
-        height: 666,
+        eyebrow: 'Primeros pasos',
+        title: 'Empezar en OnlyFans',
+        desc: 'Para quienes todavía no han empezado o están dando sus primeros pasos.',
+        formKey: 'empezar',
+        moreHref: '/creadoras/empezar',
+        delay: 'd1',
       }) +
-      `        </div>` +
-      `        <div class="guide-body">` +
-      `          <p class="eyebrow">Primeros pasos</p>` +
-      `          <h3>Empezar en OnlyFans</h3>` +
-      `          <p>Para quienes todavía no han empezado o están dando sus primeros pasos.</p>` +
-      `          <a class="btn btn-primary btn-block btn-caps" href="/creadoras/empezar">Ver la guía para empezar</a>` +
-      `        </div>` +
-      `      </article>` +
-      `      <article class="guide-card d2" data-reveal>` +
-      `        <div class="guide-media">` +
-      `          <span class="guide-chip">Guía gratis</span>` +
-      picture({
-        base: 'analitica-escalar',
+      guideCard({
+        media: 'analitica-escalar',
         alt: 'Mano señalando una curva de crecimiento ascendente en un monitor con notas adhesivas',
-        width: 1000,
-        height: 666,
+        eyebrow: 'Cuenta activa',
+        title: 'Crecer y escalar',
+        desc: 'Para creadoras que ya tienen una cuenta y quieren mejorar tráfico, conversión y estructura.',
+        formKey: 'escalar',
+        moreHref: '/creadoras/escalar',
+        delay: 'd2',
       }) +
-      `        </div>` +
-      `        <div class="guide-body">` +
-      `          <p class="eyebrow">Cuenta activa</p>` +
-      `          <h3>Crecer y escalar</h3>` +
-      `          <p>Para creadoras que ya tienen una cuenta y quieren mejorar tráfico, conversión y estructura.</p>` +
-      `          <a class="btn btn-primary btn-block btn-caps" href="/creadoras/escalar">Ver la guía para crecer</a>` +
-      `        </div>` +
-      `      </article>` +
+      `    </div>` +
+      `  </div>` +
+      `</section>` +
+      // ¿QUÉ VAS A APRENDER?
+      `<section class="section section-alt" aria-labelledby="aprender-title">` +
+      `  <div class="container">` +
+      `    <div class="section-head section-head-center" data-reveal>` +
+      `      <p class="eyebrow">OFM TOP</p>` +
+      `      <h2 id="aprender-title">¿Qué vas a aprender?</h2>` +
+      `    </div>` +
+      `    <ul class="learn-grid">${learn}</ul>` +
+      `  </div>` +
+      `</section>` +
+      // CTA FINAL
+      `<section class="section cta-final" aria-labelledby="creadoras-cta-title">` +
+      `  <div class="container container-narrow">` +
+      `    <div class="section-head section-head-center" data-reveal>` +
+      `      <h2 id="creadoras-cta-title">Empieza gratis.</h2>` +
+      `      <p class="section-lead">Elige tu guía y empieza hoy.</p>` +
+      `    </div>` +
+      `    <div class="cta-grid">` +
+      `      <a class="cta-option" href="${CONFIG.forms.empezar}" target="_blank" rel="noopener" data-reveal>` +
+      `        <span class="cta-tag">Guía gratis</span>` +
+      `        <span class="cta-label">Empezar desde cero</span>` +
+      `        ${ICONS.external}` +
+      `      </a>` +
+      `      <a class="cta-option d1" href="${CONFIG.forms.escalar}" target="_blank" rel="noopener" data-reveal>` +
+      `        <span class="cta-tag">Guía gratis</span>` +
+      `        <span class="cta-label">Crecer y escalar</span>` +
+      `        ${ICONS.external}` +
+      `      </a>` +
       `    </div>` +
       `  </div>` +
       `</section>`

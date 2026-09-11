@@ -156,6 +156,33 @@ export function topicsList(items) {
   return `<ol class="topics" data-reveal>${rows}</ol>`;
 }
 
+/**
+ * Tarjeta de guía (hubs /ofm y /creadoras): imagen + badge GUÍA GRATIS
+ * + CTA al formulario público + enlace al temario completo.
+ * formKey: clave en CONFIG.forms (fuente única de las URLs).
+ */
+export function guideCard({ media, alt, eyebrow, title, desc, formKey, moreHref, delay = '' }) {
+  const formUrl = CONFIG.forms[formKey];
+  if (!formUrl) throw new Error(`Formulario desconocido: ${formKey}`);
+  return (
+    `<article class="guide-card ${delay}" data-reveal>` +
+    `  <div class="guide-media">` +
+    `    <span class="guide-chip" aria-hidden="true">Guía gratis</span>` +
+    picture({ base: media, alt, width: 1000, height: 666 }) +
+    `  </div>` +
+    `  <div class="guide-body">` +
+    `    <p class="eyebrow">${escapeHtml(eyebrow)}</p>` +
+    `    <h3>${escapeHtml(title)}</h3>` +
+    `    <p>${escapeHtml(desc)}</p>` +
+    `    <a class="btn btn-primary btn-block btn-caps" href="${formUrl}" target="_blank" rel="noopener">` +
+    `      Quiero la guía gratis ${ICONS.external}` +
+    `    </a>` +
+    `    <a class="guide-more" href="${moreHref}">Ver el temario completo →</a>` +
+    `  </div>` +
+    `</article>`
+  );
+}
+
 /** Opción del bloque CTA final (home). */
 export function ctaOption({ tag, label, href }) {
   return (

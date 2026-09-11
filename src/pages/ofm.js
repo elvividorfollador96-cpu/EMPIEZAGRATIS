@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { breadcrumb, ICONS, picture, heroBg } from '../components.js';
+import { breadcrumb, guideCard, ICONS, heroBg } from '../components.js';
 
 /** Bloques de aprendizaje (sin descripciones inventadas: número + concepto). */
 const LEARN = [
@@ -10,28 +10,6 @@ const LEARN = [
   { n: '05', t: 'Métricas' },
   { n: '06', t: 'Escalado' },
 ];
-
-/** Tarjeta de guía: imagen + badge GUÍA GRATIS + CTA al formulario público. */
-function guideCard({ media, alt, eyebrow, title, desc, formKey, moreHref, delay }) {
-  const formUrl = CONFIG.forms[formKey];
-  return (
-    `<article class="guide-card ${delay}" data-reveal>` +
-    `  <div class="guide-media">` +
-    `    <span class="guide-chip" aria-hidden="true">Guía gratis</span>` +
-    picture({ base: media, alt, width: 1000, height: 666 }) +
-    `  </div>` +
-    `  <div class="guide-body">` +
-    `    <p class="eyebrow">${eyebrow}</p>` +
-    `    <h3>${title}</h3>` +
-    `    <p>${desc}</p>` +
-    `    <a class="btn btn-primary btn-block btn-caps" href="${formUrl}" target="_blank" rel="noopener">` +
-    `      Quiero la guía gratis ${ICONS.external}` +
-    `    </a>` +
-    `    <a class="guide-more" href="${moreHref}">Ver el temario completo →</a>` +
-    `  </div>` +
-    `</article>`
-  );
-}
 
 export default {
   path: '/ofm',
