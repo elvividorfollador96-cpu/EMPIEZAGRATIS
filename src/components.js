@@ -50,7 +50,7 @@ export function heroBg(base) {
  * - ctaHref sin ctaForm → enlace interno normal (p. ej. "#guias").
  * - secondary: { href, label } → CTA secundario fantasma.
  */
-export function guideHero({ bg, crumbs, title, sub, ctaHref, ctaLabel, ctaForm = '', secondary = null }) {
+export function guideHero({ bg, crumbs, title, sub, ctaForm = '', ctaLabel, secondary = null }) {
   let dataAttrs = '';
   if (ctaForm) {
     const isChoice = ctaForm.startsWith('choice:');
@@ -68,7 +68,7 @@ export function guideHero({ bg, crumbs, title, sub, ctaHref, ctaLabel, ctaForm =
     `      <h1 id="page-title" class="hero-title">${title}</h1>` +
     `      <p class="hero-sub">${sub}</p>` +
     `      <div class="hero-actions">` +
-    `        <a class="btn btn-primary btn-lg btn-caps" href="${ctaHref}"${dataAttrs}>${ctaLabel}</a>` +
+    `        <a class="btn btn-primary btn-lg btn-caps" href="#guia-gratis"${dataAttrs}>${ctaLabel}</a>` +
     (secondary
       ? `        <a class="btn btn-ghost btn-lg btn-caps" href="${secondary.href}">${secondary.label}</a>`
       : '') +
@@ -102,7 +102,7 @@ export function header(active = '') {
     navLink('/ofm', 'OFM', 'ofm') +
     `    </nav>` +
     `    <div class="nav-actions">` +
-    `      <a class="btn btn-primary btn-sm" href="${CONFIG.forms.empezar.url}" data-form-choice="creadoras">Empezar</a>` +
+    `      <a class="btn btn-primary btn-sm" href="#guia-gratis" data-form-choice="creadoras">Empezar</a>` +
     `      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">` +
     `        <span class="bar"></span><span class="bar"></span>` +
     `      </button>` +
@@ -119,7 +119,7 @@ export function mobileMenu() {
     `    <a class="mobile-link" href="/creadoras">Creadoras<span>Empezar o escalar tu cuenta</span></a>` +
     `    <a class="mobile-link" href="/ofm">OFM<span>Aprende a construir proyectos</span></a>` +
     `  </nav>` +
-    `  <a class="btn btn-primary btn-lg" href="${CONFIG.forms.empezar.url}" data-form-choice="creadoras">Quiero mi guía gratis</a>` +
+    `  <a class="btn btn-primary btn-lg" href="#guia-gratis" data-form-choice="creadoras">Quiero mi guía gratis</a>` +
     `  <div class="mobile-menu-foot">` +
     `    <span class="socials">` +
     `      <a href="${CONFIG.social.instagram}" target="_blank" rel="noopener">Instagram</a>` +
@@ -216,7 +216,7 @@ export function guideCard({ media, alt, eyebrow, title, desc, formKey, moreHref,
     `    <p class="eyebrow">${escapeHtml(eyebrow)}</p>` +
     `    <h3>${escapeHtml(title)}</h3>` +
     `    <p>${escapeHtml(desc)}</p>` +
-    `    <a class="btn btn-primary btn-block btn-caps" href="${form.url}" data-form-link="${formKey}">` +
+    `    <a class="btn btn-primary btn-block btn-caps" href="#guia-gratis" data-form-link="${formKey}">` +
     `      Quiero la guía gratis` +
     `    </a>` +
     `    <a class="guide-more" href="${moreHref}">Ver el temario completo →</a>` +
@@ -230,7 +230,7 @@ export function ctaOption({ tag, label, formKey, delay = '' }) {
   const form = CONFIG.forms[formKey];
   if (!form) throw new Error(`Formulario desconocido: ${formKey}`);
   return (
-    `<a class="cta-option ${delay}" href="${form.url}" data-form-link="${formKey}" data-reveal>` +
+    `<a class="cta-option ${delay}" href="#guia-gratis" data-form-link="${formKey}" data-reveal>` +
     `<span class="cta-tag">${escapeHtml(tag)}</span>` +
     `<span class="cta-label">${escapeHtml(label)}</span>` +
     `<span class="cta-arrow" aria-hidden="true">→</span>` +
@@ -251,7 +251,7 @@ export function leadPanel({ formKey }) {
     `<div class="lead-panel" data-reveal>` +
     `  <p class="lead-magnet-label">Guía gratuita</p>` +
     `  <p class="lead-magnet">«${escapeHtml(form.guide)}»</p>` +
-    `  <a class="btn btn-primary btn-lg" href="${form.url}" data-form-link="${formKey}">` +
+    `  <a class="btn btn-primary btn-lg" href="#guia-gratis" data-form-link="${formKey}">` +
     `    Quiero la guía gratis` +
     `  </a>` +
     `  <p class="lead-note">` +
@@ -278,6 +278,7 @@ export function formModal() {
       kindLabel: form.kindLabel,
       guide: form.guide,
       guideHref: form.guideHref,
+      guideFile: form.guideFile,
       utmEntries: form.utmEntries,
       fields: form.fields,
     };

@@ -1,4 +1,3 @@
-import { CONFIG } from '../config.js';
 import { ctaOption, guideCard, guideHero } from '../components.js';
 
 /** Bloques de aprendizaje (comunes a las dos guías de creadoras). */
@@ -38,7 +37,6 @@ export default {
         ],
         title: 'Tu proyecto empieza aquí',
         sub: 'Da el primer paso o encuentra una estructura para llevar tu cuenta al siguiente nivel.',
-        ctaHref: CONFIG.forms.empezar.url,
         ctaForm: 'choice:creadoras',
         ctaLabel: 'Quiero la guía gratis',
       }) +

@@ -92,6 +92,7 @@
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     if (anchor.target === '_blank' || anchor.hasAttribute('download')) return;
 
+    if (anchor.hasAttribute('data-form-link') || anchor.hasAttribute('data-form-choice')) return;
     const href = anchor.getAttribute('href');
     if (!isInternalHref(href)) return;
 
@@ -337,8 +338,8 @@
         `    <button class="btn btn-primary btn-lg btn-block" type="submit">Enviar y recibir la guía</button>` +
         `    <p class="lf-error" data-lf-error hidden></p>` +
         `    <div class="lf-net" data-lf-net hidden>` +
+        `      <button class="btn btn-primary btn-block" type="button" data-lf-retry>Volver a intentar</button>` +
         `      <button class="btn btn-ghost btn-block" type="button" data-lf-frame>Rellenar el formulario aquí</button>` +
-        `      <a class="lf-alt-link" href="${escL(F.url)}" target="_blank" rel="noopener">Abrir el formulario en una pestaña nueva</a>` +
         `    </div>` +
         `  </form>` +
         `</div>` +
@@ -347,12 +348,14 @@
         `  <h2 class="lf-title" id="lf-title-ok" tabindex="-1">Perfecto. Hemos recibido tus datos.</h2>` +
         `  <p class="lf-sub">Tu guía gratuita está lista.</p>` +
         `  <p class="lf-ok-guide">«${escL(F.guide)}»</p>` +
-        `  <a class="btn btn-primary btn-lg btn-block" href="${escL(F.guideHref)}">Acceder a la guía</a>` +
+        (F.guideFile
+          ? `  <a class="btn btn-primary btn-lg btn-block btn-caps" href="${escL(F.guideFile)}" download>Descargar la guía</a>`
+          : `  <a class="btn btn-primary btn-lg btn-block btn-caps" href="${escL(F.guideHref)}">Descargar la guía</a>`) +
         `  <a class="btn btn-ghost btn-block" href="/ofm">Conocer OFM TOP</a>` +
         `</div>` +
         `<div class="lf-state" data-lf-state="frame" hidden>` +
         `  <h2 class="lf-title" id="lf-title-frame" tabindex="-1">Formulario</h2>` +
-        `  <div class="lf-frame-wrap"><iframe class="lf-frame" title="Formulario de la guía" src="${escL(F.url)}?embedded=true"></iframe></div>` +
+        `  <div class="lf-frame-wrap"><iframe class="lf-frame" title="Formulario de la guía" data-lf-frame-src="${escL(F.url)}?embedded=true"></iframe></div>` +
         `  <p class="lf-frame-note"><button class="lf-linkbtn" type="button" data-lf-back>Volver al formulario</button></p>` +
         `</div>`;
       sheet.scrollTop = 0;
@@ -426,12 +429,14 @@
 
     const openModal = () => {
       clearTimeout(closeTimer);
-      lastFocus = document.activeElement;
-      lmodal.hidden = false;
-      document.documentElement.classList.add('lf-open');
-      requestAnimationFrame(() => requestAnimationFrame(() => lmodal.classList.add('open')));
+      if (lmodal.hidden) {
+        lastFocus = document.activeElement;
+        lmodal.hidden = false;
+        document.documentElement.classList.add('lf-open');
+        requestAnimationFrame(() => requestAnimationFrame(() => lmodal.classList.add('open')));
+        document.addEventListener('keydown', onKey);
+      }
       sheet.focus({ preventScroll: true });
-      document.addEventListener('keydown', onKey);
     };
 
     const closeModal = () => {
@@ -541,28 +546,36 @@
         });
     });
 
-    /* ---------- delegación de clics ---------- */
+    /* ---------- delegación de clics ----------
+       Captura (fase 1): cualquier clic en un CTA de formulario se intercepta
+       ANTES que cualquier otro handler: nunca navega, siempre modal. */
+    document.addEventListener(
+      'click',
+      (e) => {
+        const opener = e.target.closest ? e.target.closest('[data-form-link]') : null;
+        if (opener && FORMS[opener.getAttribute('data-form-link')]) {
+          e.preventDefault();
+          e.stopPropagation();
+          renderForm(opener.getAttribute('data-form-link'));
+          openModal();
+          return;
+        }
+        const chooser = e.target.closest ? e.target.closest('[data-form-choice]') : null;
+        if (chooser) {
+          const g = chooser.getAttribute('data-form-choice');
+          if (GROUPS[g] && GROUPS[g].length) {
+            e.preventDefault();
+            e.stopPropagation();
+            renderChoice(g);
+            openModal();
+          }
+        }
+      },
+      true,
+    );
+
+    /* Dentro del modal: cerrar, reintento y fallback embebido */
     document.addEventListener('click', (e) => {
-      const opener = e.target.closest ? e.target.closest('[data-form-link]') : null;
-      if (opener && !e.defaultPrevented) {
-        const key = opener.getAttribute('data-form-link');
-        if (FORMS[key]) {
-          e.preventDefault();
-          renderForm(key);
-          openModal();
-        }
-        return;
-      }
-      const chooser = e.target.closest ? e.target.closest('[data-form-choice]') : null;
-      if (chooser && !e.defaultPrevented) {
-        const g = chooser.getAttribute('data-form-choice');
-        if (GROUPS[g] && GROUPS[g].length) {
-          e.preventDefault();
-          renderChoice(g);
-          openModal();
-        }
-        return;
-      }
       if (!lmodal.contains(e.target)) return;
       if (e.target.closest('[data-lf-close]')) {
         closeModal();
@@ -573,6 +586,10 @@
           if (frame && !frame.src) frame.src = frame.getAttribute('data-lf-frame-src');
           showState('frame');
         }
+      } else if (e.target.closest('[data-lf-retry]')) {
+        const form = bodyEl.querySelector('.lf-form');
+        const btn = form && form.querySelector('button[type="submit"]');
+        if (btn) btn.click();
       } else if (e.target.closest('[data-lf-back]')) {
         showState('form');
       }

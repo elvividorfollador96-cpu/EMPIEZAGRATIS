@@ -34,7 +34,7 @@ const FORM_VIEW = (id) => `${FORMS_BASE}/${id}/viewform`;
  * desplegables y de las casillas son EXACTAMENTE las del formulario: si
  * cambian allí, deben cambiarse aquí.
  */
-function makeForm({ id, kind, kindLabel, guide, guideHref, fields }) {
+function makeForm({ id, kind, kindLabel, guide, guideHref, guideFile = null, fields }) {
   return {
     id,
     /** Endpoint receptor (POST). No cambia sin verificar el formulario. */
@@ -45,6 +45,16 @@ function makeForm({ id, kind, kindLabel, guide, guideHref, fields }) {
     kindLabel,
     /** Guía que recibe el usuario (para el estado de éxito). */
     guide,
+    /**
+     * Archivo de la guía para el botón «Descargar la guía» del estado de
+     * éxito. Hoy no existe ninguna: se deja null y el botón lleva al
+     * temario (guideHref). Cuando tengas las guías, súbelas a public/guias/
+     * y pon aquí la ruta, p. ej. guideFile: '/guias/tu-primer-mes-en-onlyfans.pdf'
+     * → el botón «Descargar la guía» las servirá directamente del propio sitio
+     * con descarga (atributo download). Mientras sea null, el botón lleva al
+     * temario de la guía (guideHref).
+     */
+    guideFile,
     /** Destino del CTA "Acceder a la guía" tras el envío. */
     guideHref,
     /** Atribución UTM → entry del CRM. Vacío hasta crear los campos ocultos. */
@@ -72,6 +82,13 @@ export const CONFIG = Object.freeze({
 
   /** Dominio público (workers.dev). NO cambiar sin actualizar sitemap/canonical. */
   domain: 'https://empiezagratis.ofmtop.workers.dev',
+
+  /**
+   * Versión de assets: se añade como ?v= a css/js para invalidar cachés
+   * en cada despliegue (así el cliente nunca mezcla HTML nuevo con JS viejo).
+   * Súbela (cualquier string distinto) cuando cambies styles.css o main.js.
+   */
+  assetVersion: '2026.09.11-3',
 
   /**
    * Fuente única del logo en toda la web.

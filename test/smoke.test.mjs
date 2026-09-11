@@ -249,6 +249,39 @@ test('accessibilidad: skip link, labels, aria, lang, headings', async () => {
   }
 });
 
+test('formularios integrados: el CTA abre el modal de OFM TOP, nunca Google Forms', async () => {
+  if (!globalThis.requestAnimationFrame) globalThis.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+  const { doc, win } = await pageDoc('/ofm');
+  const cta = doc.querySelector('[data-form-link="reales"]');
+  assert.ok(cta, 'CTA integrado presente');
+  assert.ok(!cta.getAttribute('href').startsWith('https://docs.google.com'), 'el CTA no apunta a Google Forms');
+  cta.dispatchEvent(new win.MouseEvent('click', { bubbles: true, cancelable: true }));
+  const modal = doc.getElementById('lead-modal');
+  assert.ok(modal, 'capa modal presente');
+  assert.equal(modal.hidden, false, 'el modal se abre con el clic');
+  const form = modal.querySelector('.lf-form');
+  assert.ok(form, 'formulario nativo renderizado');
+  assert.ok(modal.querySelector('.lmodal-close[data-lf-close]'), 'botón X para cerrar');
+  // Campos del Google Form original presentes en el formulario propio
+  for (const name of ['nombre', 'email', 'whatsapp', 'situacion', 'objetivo']) {
+    assert.ok(form.querySelector(`[name="${name}"]`), `campo ${name}`);
+  }
+  // Legalidad: 18+ y privacidad obligatorias, marketing OPCIONAL
+  const edad = form.querySelector('input[name="edad"]');
+  const priv = form.querySelector('input[name="privacidad"]');
+  const mkt = form.querySelector('input[name="marketing"]');
+  assert.ok(edad && edad.required !== false && edad.closest('.lf-check'), 'checkbox 18+ presente');
+  assert.equal(edad.hasAttribute('required'), true, '18+ obligatorio');
+  assert.equal(priv.hasAttribute('required'), true, 'privacidad obligatoria');
+  assert.equal(mkt.hasAttribute('required'), false, 'marketing opcional');
+  assert.ok(form.querySelector('.lf-disclaimer a[href="/legal/privacidad"]'), 'disclaimer con enlace a privacidad');
+  // Ningún enlace a Google dentro del modal
+  const googleLinks = [...modal.querySelectorAll('a[href^="https://docs.google.com"]')];
+  assert.equal(googleLinks.length, 0, 'cero enlaces a Google Forms en el modal');
+  // Estado de éxito con botón de descarga
+  assert.ok(modal.querySelector('[data-lf-state="ok"] a.btn'), 'CTA de éxito (Descargar la guía)');
+});
+
 test('legal: datos oficiales completos, sin placeholders', async () => {
   for (const p of ['/legal/privacidad', '/legal/aviso-legal', '/legal/cookies']) {
     const { doc } = await pageDoc(p);

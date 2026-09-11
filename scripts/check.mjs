@@ -186,7 +186,8 @@ for (const [p, key] of formChecks) {
   const snippet = html.match(new RegExp(`<a[^>]*data-form-link="${key}"[^>]*>`));
   if (snippet) {
     if (snippet[0].includes('target="_blank"')) fail(`${p}: el CTA del formulario abre en pestaña nueva (prohibido)`);
-    else pass(`${p}: CTA integrado data-form-link="${key}" (sin target=_blank)`);
+    else if (snippet[0].includes('href="https://docs.google.com')) fail(`${p}: el CTA apunta a Google Forms (prohibido)`);
+    else pass(`${p}: CTA integrado data-form-link="${key}" (ancla interna, sin Google)`);
   } else {
     fail(`${p}: falta el CTA integrado data-form-link="${key}"`);
   }

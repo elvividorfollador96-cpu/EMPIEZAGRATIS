@@ -1499,6 +1499,12 @@ html.js [data-reveal].d4 {
 .guide-grid-4 { max-width: 1060px; }
 @media (max-width: 520px) { .page-visual { margin-top: 28px; border-radius: var(--radius-m); } }
 
+/* El atributo hidden debe ganar siempre (evita capas invisibles que
+   bloquean clics y estados fantasma dentro del modal). */
+[hidden] {
+  display: none !important;
+}
+
 /* ============================================================
    27. Formulario integrado (modal/drawer) — captación OFM TOP
    El usuario no sale de la web: formulario nativo que envía al
@@ -1572,15 +1578,16 @@ html.lf-open body {
   width: 44px;
   height: 44px;
   margin: -6px -6px -6px 0;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(149, 213, 255, 0.35);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--ink-2);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  background: rgba(56, 182, 255, 0.12);
+  color: var(--ink);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 .lmodal-close:hover {
-  color: var(--ink);
-  border-color: rgba(56, 182, 255, 0.4);
+  color: #fff;
+  border-color: rgba(56, 182, 255, 0.6);
+  background: rgba(56, 182, 255, 0.22);
 }
 .lmodal-body {
   overflow-y: auto;

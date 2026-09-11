@@ -101,7 +101,7 @@ export default {
       `          <p class="eyebrow">Creadora</p>` +
       `          <h3>Empezar en OnlyFans</h3>` +
       `          <p>Para quienes todavía no han empezado o están dando sus primeros pasos.</p>` +
-      `          <a class="btn btn-primary btn-block btn-caps" href="${CONFIG.forms.empezar.url}" data-form-link="empezar">Quiero mi guía gratis</a>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="#guia-gratis" data-form-link="empezar">Quiero mi guía gratis</a>` +
       `        </div>` +
       `      </article>` +
       `      <article class="guide-card d2" data-reveal>` +
@@ -118,7 +118,7 @@ export default {
       `          <p class="eyebrow">Creadora</p>` +
       `          <h3>Crecer y escalar</h3>` +
       `          <p>Para creadoras que ya tienen una cuenta y quieren mejorar tráfico, conversión y estructura.</p>` +
-      `          <a class="btn btn-primary btn-block btn-caps" href="${CONFIG.forms.escalar.url}" data-form-link="escalar">Quiero mi guía gratis</a>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="#guia-gratis" data-form-link="escalar">Quiero mi guía gratis</a>` +
       `        </div>` +
       `      </article>` +
       `      <article class="guide-card d3" data-reveal>` +
@@ -135,7 +135,7 @@ export default {
       `          <p class="eyebrow">OFM</p>` +
       `          <h3>Modelos reales</h3>` +
       `          <p>Aprende los fundamentos para trabajar con modelos reales y construir un sistema de crecimiento.</p>` +
-      `          <a class="btn btn-primary btn-block btn-caps" href="${CONFIG.forms.reales.url}" data-form-link="reales">Quiero mi guía gratis</a>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="#guia-gratis" data-form-link="reales">Quiero mi guía gratis</a>` +
       `        </div>` +
       `      </article>` +
       `      <article class="guide-card d4" data-reveal>` +
@@ -152,7 +152,7 @@ export default {
       `          <p class="eyebrow">OFM</p>` +
       `          <h3>Modelos IA</h3>` +
       `          <p>Aprende los fundamentos para crear y desarrollar un proyecto alrededor de modelos virtuales generados con IA.</p>` +
-      `          <a class="btn btn-primary btn-block btn-caps" href="${CONFIG.forms.ia.url}" data-form-link="ia">Quiero mi guía gratis</a>` +
+      `          <a class="btn btn-primary btn-block btn-caps" href="#guia-gratis" data-form-link="ia">Quiero mi guía gratis</a>` +
       `        </div>` +
       `      </article>` +
       `    </div>` +
