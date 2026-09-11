@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { guideCard, guideHero, ICONS } from '../components.js';
+import { ctaOption, guideCard, guideHero } from '../components.js';
 
 /** Bloques de aprendizaje (comunes a las dos guías de creadoras). */
 const LEARN = [
@@ -29,7 +29,7 @@ export default {
     ).join('\n');
 
     return (
-      // HERO: badge GUÍA GRATUITA + titular + CTA con fondo fotográfico
+      // HERO: GUÍA GRATUITA bien visible + CTA al formulario integrado
       guideHero({
         bg: 'creacion-empezar',
         crumbs: [
@@ -38,10 +38,11 @@ export default {
         ],
         title: 'Tu proyecto empieza aquí',
         sub: 'Da el primer paso o encuentra una estructura para llevar tu cuenta al siguiente nivel.',
-        ctaHref: '#guias',
-        ctaLabel: 'Ver las guías gratis',
+        ctaHref: CONFIG.forms.empezar.url,
+        ctaForm: 'choice:creadoras',
+        ctaLabel: 'Quiero la guía gratis',
       }) +
-      // GUÍAS GRATUITAS: dos tarjetas con imagen y CTA al formulario
+      // GUÍAS GRATUITAS: dos puntos de partida, formulario integrado
       `<section class="section" id="guias" aria-labelledby="guias-title">` +
       `  <div class="container">` +
       `    <div class="section-head section-head-center" data-reveal>` +
@@ -83,7 +84,7 @@ export default {
       `    <ul class="learn-grid">${learn}</ul>` +
       `  </div>` +
       `</section>` +
-      // CTA FINAL
+      // CTA FINAL: formulario integrado
       `<section class="section cta-final" aria-labelledby="creadoras-cta-title">` +
       `  <div class="container container-narrow">` +
       `    <div class="section-head section-head-center" data-reveal>` +
@@ -91,16 +92,8 @@ export default {
       `      <p class="section-lead">Elige tu guía y empieza hoy.</p>` +
       `    </div>` +
       `    <div class="cta-grid">` +
-      `      <a class="cta-option" href="${CONFIG.forms.empezar}" target="_blank" rel="noopener" data-reveal>` +
-      `        <span class="cta-tag">Guía gratis</span>` +
-      `        <span class="cta-label">Empezar desde cero</span>` +
-      `        ${ICONS.external}` +
-      `      </a>` +
-      `      <a class="cta-option d1" href="${CONFIG.forms.escalar}" target="_blank" rel="noopener" data-reveal>` +
-      `        <span class="cta-tag">Guía gratis</span>` +
-      `        <span class="cta-label">Crecer y escalar</span>` +
-      `        ${ICONS.external}` +
-      `      </a>` +
+      ctaOption({ tag: 'Guía gratis', label: 'Empezar desde cero', formKey: 'empezar' }) +
+      ctaOption({ tag: 'Guía gratis', label: 'Crecer y escalar', formKey: 'escalar', delay: 'd1' }) +
       `    </div>` +
       `  </div>` +
       `</section>`

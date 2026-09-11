@@ -1,4 +1,3 @@
-import { CONFIG } from '../config.js';
 import { guideHero, ICONS, leadPanel, topicsList } from '../components.js';
 
 const TOPICS = [
@@ -34,9 +33,9 @@ export default {
         ],
         title: 'Construye un proyecto de modelo virtual con IA',
         sub: 'De la identidad del personaje al escalado del proyecto: la estructura completa para construir un modelo virtual con IA.',
-        ctaHref: CONFIG.forms.modelosIA,
+        ctaHref: '/ofm/modelos-ia',
+        ctaForm: 'ia',
         ctaLabel: 'Quiero la guía gratis',
-        external: true,
       }) +
       `<section class="section">` +
       `  <div class="container container-narrow">` +
@@ -45,11 +44,7 @@ export default {
       `      ${ICONS.info}` +
       `      <span>Los proyectos de modelo virtual trabajan con personajes generados por IA, no con personas reales. La transparencia y el cumplimiento de las normativas de cada plataforma son parte integral de cualquier proyecto serio.</span>` +
       `    </p>` +
-      leadPanel({
-        magnet: 'Cómo construir un proyecto de modelo virtual con IA',
-        cta: 'Quiero aprender',
-        formKey: 'modelosIA',
-      }) +
+      leadPanel({ formKey: 'ia' }) +
       `  </div>` +
       `</section>`
     );

@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { guideCard, guideHero, ICONS } from '../components.js';
+import { ctaOption, guideCard, guideHero } from '../components.js';
 
 /** Bloques de aprendizaje (sin descripciones inventadas: número + concepto). */
 const LEARN = [
@@ -14,9 +14,9 @@ const LEARN = [
 export default {
   path: '/ofm',
   seo: {
-    title: 'Guías gratuitas para aprender OFM desde cero · OFM TOP',
+    title: 'Guía gratis para aprender OFM desde cero · OFM TOP',
     description:
-      'Consigue gratis una guía OFM: elige modelos reales o modelos virtuales con IA y aprende los fundamentos para construir tu proyecto desde cero.',
+      'Guía gratuita de OFM: elige modelos reales o modelos virtuales con IA y aprende tráfico, captación, contenido, conversión y gestión desde cero.',
     headingId: 'page-title',
   },
   content() {
@@ -29,19 +29,21 @@ export default {
     ).join('\n');
 
     return (
-      // HERO: badge GUÍA GRATUITA + titular + CTA con fondo fotográfico
+      // HERO: GUÍA GRATUITA bien visible + CTA principal al formulario integrado
       guideHero({
         bg: 'direccion-modelo-virtual',
         crumbs: [
           { href: '/', label: 'Inicio' },
           { label: 'OFM' },
         ],
-        title: 'Aprende a construir tu proyecto OFM',
-        sub: 'Aprende cómo funciona el mundo OFM, qué necesitas para empezar y cómo estructurar un proyecto desde cero.',
-        ctaHref: '#guias',
-        ctaLabel: 'Ver las guías gratis',
+        title: 'Aprende OFM desde cero',
+        sub: 'Aprende a construir tu proyecto OFM, entender el tráfico, la captación, el contenido, la conversión y la gestión desde cero.',
+        ctaHref: CONFIG.forms.reales.url,
+        ctaForm: 'choice:ofm',
+        ctaLabel: 'Quiero la guía gratis',
+        secondary: { href: '#guias', label: 'Ver las guías' },
       }) +
-      // GUÍAS GRATUITAS: dos tarjetas con imagen y CTA al formulario
+      // GUÍAS GRATUITAS: dos caminos, ambos gratis, formulario integrado
       `<section class="section" id="guias" aria-labelledby="guias-title">` +
       `  <div class="container">` +
       `    <div class="section-head section-head-center" data-reveal>` +
@@ -56,7 +58,7 @@ export default {
         eyebrow: 'Modelos reales',
         title: 'OFM desde cero: modelos reales',
         desc: 'Aprende los fundamentos para trabajar con modelos reales y construir un sistema de crecimiento.',
-        formKey: 'modelosReales',
+        formKey: 'reales',
         moreHref: '/ofm/modelos-reales',
         delay: 'd1',
       }) +
@@ -64,9 +66,9 @@ export default {
         media: 'gen-modelo-virtual',
         alt: 'Monitor con una retícula de variaciones del mismo modelo virtual generadas con IA',
         eyebrow: 'Modelos IA',
-        title: 'Construye un proyecto de modelo virtual con IA',
-        desc: 'Aprende los fundamentos para crear y desarrollar un proyecto alrededor de modelos virtuales generados con IA.',
-        formKey: 'modelosIA',
+        title: 'Cómo construir un proyecto de modelo virtual con IA',
+        desc: 'Aprende cómo plantear identidad, contenido, tráfico y monetización de un proyecto de modelo virtual.',
+        formKey: 'ia',
         moreHref: '/ofm/modelos-ia',
         delay: 'd2',
       }) +
@@ -83,7 +85,7 @@ export default {
       `    <ul class="learn-grid">${learn}</ul>` +
       `  </div>` +
       `</section>` +
-      // CTA FINAL
+      // CTA FINAL: formulario integrado
       `<section class="section cta-final" aria-labelledby="ofm-cta-title">` +
       `  <div class="container container-narrow">` +
       `    <div class="section-head section-head-center" data-reveal>` +
@@ -91,16 +93,8 @@ export default {
       `      <p class="section-lead">Elige una guía y empieza a aprender.</p>` +
       `    </div>` +
       `    <div class="cta-grid">` +
-      `      <a class="cta-option" href="${CONFIG.forms.modelosReales}" target="_blank" rel="noopener" data-reveal>` +
-      `        <span class="cta-tag">Guía gratis</span>` +
-      `        <span class="cta-label">Modelos reales</span>` +
-      `        ${ICONS.external}` +
-      `      </a>` +
-      `      <a class="cta-option d1" href="${CONFIG.forms.modelosIA}" target="_blank" rel="noopener" data-reveal>` +
-      `        <span class="cta-tag">Guía gratis</span>` +
-      `        <span class="cta-label">Modelos IA</span>` +
-      `        ${ICONS.external}` +
-      `      </a>` +
+      ctaOption({ tag: 'Guía gratis', label: 'Modelos reales', formKey: 'reales' }) +
+      ctaOption({ tag: 'Guía gratis', label: 'Modelos IA', formKey: 'ia', delay: 'd1' }) +
       `    </div>` +
       `  </div>` +
       `</section>`

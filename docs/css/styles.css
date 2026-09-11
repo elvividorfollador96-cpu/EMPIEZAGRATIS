@@ -307,13 +307,13 @@ p {
 .logo-mark img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   /* Zoom del contenido del logo SIN tocar el marco circular: el círculo
-     conserva sus dimensiones (overflow:hidden) y solo se escala la imagen
-     interna. El origen coincide con el centro óptico del lockup "OFM TOP"
-     (≈51.7%/51.9% del lienzo 2000×2000) para que quede centrado y no se
-     recorte ningún elemento importante. */
-  transform: scale(var(--logo-zoom, 1.9));
+     conserva exactamente las mismas dimensiones exteriores (overflow:hidden)
+     y solo se escala la imagen interna. El origen coincide con el centro
+     óptico del lockup "OFM TOP" (≈51.7%/51.9% del lienzo 2000×2000) y el
+     zoom (2.35) lleva el lockup al ~82% del diámetro sin recortar nada. */
+  transform: scale(var(--logo-zoom, 2.35));
   transform-origin: 51.7% 51.9%;
 }
 .logo-mark-sm {
@@ -1241,18 +1241,19 @@ html.js [data-reveal].d4 {
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 9px 18px;
-  border: 1px solid rgba(149, 213, 255, 0.4);
+  gap: 10px;
+  padding: 11px 22px;
+  border: 1px solid rgba(149, 213, 255, 0.55);
   border-radius: 999px;
-  background: rgba(56, 182, 255, 0.1);
-  box-shadow: 0 0 24px rgba(56, 182, 255, 0.18) inset,
-    0 6px 24px -8px rgba(56, 182, 255, 0.25);
-  font-size: 12px;
+  background: linear-gradient(180deg, rgba(56, 182, 255, 0.32), rgba(56, 182, 255, 0.18));
+  box-shadow: 0 0 30px rgba(56, 182, 255, 0.3) inset,
+    0 10px 34px -8px rgba(56, 182, 255, 0.5);
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent-soft);
+  color: #d9f1ff;
+  text-shadow: 0 1px 8px rgba(56, 182, 255, 0.5);
 }
 .hero-badge-dot {
   flex: none;
@@ -1497,3 +1498,455 @@ html.js [data-reveal].d4 {
 .page-visual img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
 .guide-grid-4 { max-width: 1060px; }
 @media (max-width: 520px) { .page-visual { margin-top: 28px; border-radius: var(--radius-m); } }
+
+/* ============================================================
+   27. Formulario integrado (modal/drawer) — captación OFM TOP
+   El usuario no sale de la web: formulario nativo que envía al
+   Google Form original (backend) con loading/error/éxito.
+   ============================================================ */
+html.lf-open,
+html.lf-open body {
+  overflow: hidden;
+}
+.lmodal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.26s var(--ease);
+}
+.lmodal.open {
+  opacity: 1;
+}
+.lmodal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 6, 10, 0.74);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.lmodal-sheet {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  max-height: min(92dvh, 780px);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-bottom: none;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(180deg, #0c1219, #080d13);
+  box-shadow: 0 -30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(56, 182, 255, 0.08);
+  transform: translateY(28px);
+  transition: transform 0.3s var(--ease);
+  outline: none;
+}
+.lmodal.open .lmodal-sheet {
+  transform: translateY(0);
+}
+.lmodal-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 14px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.lmodal-brand {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+.lmodal-close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -6px -6px -6px 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ink-2);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.lmodal-close:hover {
+  color: var(--ink);
+  border-color: rgba(56, 182, 255, 0.4);
+}
+.lmodal-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 22px 22px calc(26px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Estados */
+.lf-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.lf-title {
+  font-size: clamp(1.35rem, 4.6vw + 0.4rem, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  outline: none;
+}
+.lf-sub {
+  margin-top: 8px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.lf-form {
+  margin-top: 20px;
+  display: grid;
+  gap: 15px;
+}
+.lf-field {
+  display: grid;
+  gap: 6px;
+}
+.lf-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.lf-req {
+  color: var(--accent);
+}
+.lf-hint {
+  font-size: 12px;
+  color: var(--ink-3);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+/* Inputs: 16px para que iOS no haga zoom al enfocar */
+.lf-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.lf-input::placeholder {
+  color: var(--ink-3);
+}
+.lf-input:focus {
+  outline: none;
+  border-color: rgba(56, 182, 255, 0.65);
+  background: rgba(56, 182, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(56, 182, 255, 0.16);
+}
+textarea.lf-input {
+  min-height: 92px;
+  resize: vertical;
+}
+.lf-select {
+  position: relative;
+}
+.lf-select::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--ink-3);
+  border-bottom: 2px solid var(--ink-3);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+select.lf-input {
+  padding-right: 44px;
+}
+/* iOS: texto de los selects legible sobre el fondo del sistema */
+select.lf-input option {
+  background: #0c1219;
+  color: var(--ink);
+}
+.lf-field-err {
+  font-size: 12.5px;
+  color: #ff9c9c;
+}
+.lf-more {
+  border: 1px dashed var(--line);
+  border-radius: 13px;
+  padding: 2px 16px;
+}
+.lf-more summary {
+  padding: 12px 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lf-more summary::-webkit-details-marker {
+  display: none;
+}
+.lf-more summary::before {
+  content: "+";
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  font-weight: 700;
+  color: var(--accent-soft);
+}
+.lf-more[open] summary::before {
+  content: "–";
+}
+.lf-more summary span {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.lf-more .lf-field {
+  padding-bottom: 14px;
+}
+.lf-consents {
+  display: grid;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.lf-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.lf-check input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  accent-color: var(--accent);
+}
+.lf-check a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lf-check.is-invalid {
+  color: #ffb3b3;
+}
+.lf-disclaimer {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.lf-disclaimer a {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lf-form .btn[type="submit"] {
+  min-height: 56px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lf-form .btn[type="submit"]:disabled {
+  opacity: 0.75;
+  transform: none;
+}
+.lf-form .btn.is-loading::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: lf-spin 0.7s linear infinite;
+}
+@keyframes lf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.lf-error {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #ffb3b3;
+  text-align: center;
+}
+.lf-net {
+  display: grid;
+  gap: 10px;
+}
+.lf-alt-link {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Éxito */
+.lf-state-ok {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 26px 4px 8px;
+}
+.lf-ok-icon {
+  color: var(--accent);
+  filter: drop-shadow(0 0 18px rgba(56, 182, 255, 0.45));
+}
+.lf-ok-guide {
+  font-size: 15px;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+}
+.lf-state-ok .btn {
+  width: 100%;
+}
+
+/* Formulario alternativo embebido */
+.lf-frame-wrap {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  overflow: hidden;
+  background: #fff;
+}
+.lf-frame {
+  display: block;
+  width: 100%;
+  height: min(62dvh, 520px);
+  border: 0;
+}
+.lf-frame-note {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+.lf-linkbtn {
+  border: 0;
+  background: none;
+  padding: 6px 4px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+/* Selector de camino (hubs/home) */
+.lf-choices {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+.lf-choice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+  transition: transform 0.3s var(--ease), border-color 0.3s ease;
+}
+.lf-choice:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 182, 255, 0.5);
+}
+.lf-choice-body {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+}
+.lf-choice-tag {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+.lf-choice-label {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.lf-choice-desc {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+/* Escritorio: diálogo centrado */
+@media (min-width: 700px) {
+  .lmodal {
+    align-items: center;
+    padding: 24px;
+  }
+  .lmodal-sheet {
+    border-radius: var(--radius-l);
+    border-bottom: 1px solid var(--line);
+    transform: translateY(14px) scale(0.985);
+  }
+  .lmodal.open .lmodal-sheet {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enlace de contacto legal (email nunca visible) */
+.contact-link {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.contact-link:hover {
+  color: var(--accent);
+}
+
+/* Foco visible consistente (accesibilidad teclado) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

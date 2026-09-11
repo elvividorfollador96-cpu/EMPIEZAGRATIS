@@ -1,4 +1,3 @@
-import { CONFIG } from '../config.js';
 import { guideHero, leadPanel, topicsList } from '../components.js';
 
 const TOPICS = [
@@ -34,18 +33,14 @@ export default {
         ],
         title: 'OFM desde cero: modelos reales',
         sub: 'Aprende cómo funciona el trabajo de un OFM y qué piezas necesitas para construir un proyecto.',
-        ctaHref: CONFIG.forms.modelosReales,
+        ctaHref: '/ofm/modelos-reales',
+        ctaForm: 'reales',
         ctaLabel: 'Quiero la guía gratis',
-        external: true,
       }) +
       `<section class="section">` +
       `  <div class="container container-narrow">` +
       topicsList(TOPICS) +
-      leadPanel({
-        magnet: 'OFM desde cero: modelos reales',
-        cta: 'Quiero aprender OFM',
-        formKey: 'modelosReales',
-      }) +
+      leadPanel({ formKey: 'reales' }) +
       `  </div>` +
       `</section>`
     );

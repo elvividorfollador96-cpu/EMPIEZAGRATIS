@@ -142,6 +142,7 @@ for (const [p, { html }] of Object.entries(htmlByPath)) {
       continue;
     }
     if (href.startsWith('#')) continue;
+    if (/^(mailto:|tel:)/i.test(href)) continue; // contacto por email/teléfono
     const clean = href.split('#')[0].split('?')[0] || '/';
     const known =
       KNOWN_PAGES.includes(clean) || KNOWN_STATIC.some((s) => clean.startsWith(s));
@@ -171,26 +172,67 @@ for (const src of imgSet) {
 if (imgRefs > 0) pass(`${imgRefs} referencias <img>/<source> a /img/ en el HTML`);
 else fail('ninguna página referencia imágenes locales');
 
-console.log('── Formularios (4) ───────────────────────');
+console.log('── Formularios integrados (4) ────────────');
 const formChecks = [
-  ['/creadoras/empezar', CONFIG.forms.empezar, 'Quiero empezar'],
-  ['/creadoras/escalar', CONFIG.forms.escalar, 'Quiero crecer'],
-  ['/ofm/modelos-reales', CONFIG.forms.modelosReales, 'Quiero aprender OFM'],
-  ['/ofm/modelos-ia', CONFIG.forms.modelosIA, 'Quiero aprender'],
+  ['/creadoras/empezar', 'empezar'],
+  ['/creadoras/escalar', 'escalar'],
+  ['/ofm/modelos-reales', 'reales'],
+  ['/ofm/modelos-ia', 'ia'],
 ];
-for (const [p, url, cta] of formChecks) {
+for (const [p, key] of formChecks) {
   const { html } = htmlByPath[p] || { html: '' };
-  const snippet = html.match(new RegExp(`<a[^>]*href="${url}"[^>]*>`));
+  const form = CONFIG.forms[key];
+  // CTA integrado (data-form-link) presente y sin target=_blank
+  const snippet = html.match(new RegExp(`<a[^>]*data-form-link="${key}"[^>]*>`));
   if (snippet) {
-    const okBlank = snippet[0].includes('target="_blank"') && snippet[0].includes('rel="noopener"');
-    if (okBlank) pass(`${p}: formulario ${url.slice(28, 44)}… (blank+noopener)`);
-    else fail(`${p}: formulario sin target=_blank/rel=noopener`);
+    if (snippet[0].includes('target="_blank"')) fail(`${p}: el CTA del formulario abre en pestaña nueva (prohibido)`);
+    else pass(`${p}: CTA integrado data-form-link="${key}" (sin target=_blank)`);
   } else {
-    fail(`${p}: no aparece el formulario ${url}`);
+    fail(`${p}: falta el CTA integrado data-form-link="${key}"`);
   }
-  if (html.includes(cta)) pass(`${p}: CTA “${cta}” presente`);
-  else fail(`${p}: falta CTA “${cta}”`);
+  // Endpoint real del Google Form en la isla de datos del modal
+  if (html.includes(form.action)) pass(`${p}: endpoint formResponse en la isla de datos`);
+  else fail(`${p}: falta el endpoint formResponse (formKey=${key})`);
+  // entry.* verificados presentes en la isla
+  const entries = form.fields.map((f) => f.entry);
+  const missing = entries.filter((e) => !html.includes(e));
+  if (missing.length === 0) pass(`${p}: ${entries.length} entry.* verificados presentes`);
+  else fail(`${p}: faltan entry.* → ${missing.join(', ')}`);
+  // Enlaces /edit prohibidos
   if (html.includes('/edit')) fail(`${p}: se detectó un enlace /edit (prohibido)`);
+}
+
+console.log('── Experiencia del formulario ────────────');
+for (const p of ['/', '/creadoras', '/ofm', '/creadoras/empezar', '/ofm/modelos-ia']) {
+  const { html } = htmlByPath[p] || { html: '' };
+  if (html.includes('id="lead-modal"')) pass(`${p}: capa del formulario integrado presente`);
+  else fail(`${p}: falta la capa del formulario integrado`);
+  if (html.includes('id="ofmtop-forms"')) pass(`${p}: isla de datos JSON presente`);
+  else fail(`${p}: falta la isla de datos JSON`);
+  if (html.includes('Guía gratuita') || html.includes('Guía gratis')) pass(`${p}: oferta GUÍA GRATIS visible`);
+  else fail(`${p}: falta la oferta GUÍA GRATIS`);
+  if (!/<a[^>]*target="_blank"[^>]*href="https:\/\/docs\.google\.com\/forms[^"]*"[^>]*data-form-link/.test(html))
+    pass(`${p}: ningún CTA de formulario abre en pestaña nueva`);
+  else fail(`${p}: hay CTAs de formulario con target=_blank`);
+}
+
+console.log('── Legal ─────────────────────────────────');
+for (const p of ['/legal/aviso-legal', '/legal/privacidad', '/legal/cookies']) {
+  const { html } = htmlByPath[p] || { html: '' };
+  const text = html.replace(/<[^>]+>/g, ' ');
+  if (text.includes('Calle Plaza del Sol 14, 6ºA')) pass(`${p}: domicilio oficial presente`);
+  else fail(`${p}: falta el domicilio oficial`);
+  if (text.includes('OFM TOP')) pass(`${p}: titular OFM TOP presente`);
+  else fail(`${p}: falta el titular`);
+  if (text.includes('@gmail') || text.includes('contacto.starupmentor')) fail(`${p}: el email es visible como texto (prohibido)`);
+  else pass(`${p}: el email no aparece como texto visible`);
+  if (html.includes('mailto:contacto.starupmentor@gmail.com')) pass(`${p}: enlace mailto de contacto presente`);
+  else fail(`${p}: falta el enlace mailto de contacto`);
+  if (!text.includes('[COMPLETAR') && !text.includes('COMPLETAR:')) pass(`${p}: sin placeholders pendientes`);
+  else fail(`${p}: quedan placeholders [COMPLETAR]`);
+  if (!text.includes('NIF') && !text.includes('CIF')) pass(`${p}: sin NIF/CIF (correcto)`);
+  else fail(`${p}: se menciona NIF/CIF`);
+  if (p !== '/legal/cookies' && (text.includes('mayor de 18') || text.includes('mayores de 18'))) pass(`${p}: advertencia 18+ presente`);
 }
 
 console.log('── Logo (URL oficial + marco circular) ───');

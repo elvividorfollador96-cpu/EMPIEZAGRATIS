@@ -1,4 +1,3 @@
-import { CONFIG } from '../config.js';
 import { guideHero, leadPanel, topicsList } from '../components.js';
 
 const TOPICS = [
@@ -31,18 +30,14 @@ export default {
         ],
         title: 'Crecer y escalar mi OnlyFans',
         sub: 'Pasar de publicar sin dirección a trabajar con una estrategia de crecimiento.',
-        ctaHref: CONFIG.forms.escalar,
+        ctaHref: '/creadoras/escalar',
+        ctaForm: 'escalar',
         ctaLabel: 'Quiero la guía gratis',
-        external: true,
       }) +
       `<section class="section">` +
       `  <div class="container container-narrow">` +
       topicsList(TOPICS) +
-      leadPanel({
-        magnet: 'Cómo crecer y escalar una cuenta de OnlyFans',
-        cta: 'Quiero crecer',
-        formKey: 'escalar',
-      }) +
+      leadPanel({ formKey: 'escalar' }) +
       `  </div>` +
       `</section>`
     );

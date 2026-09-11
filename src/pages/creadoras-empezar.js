@@ -1,4 +1,3 @@
-import { CONFIG } from '../config.js';
 import { guideHero, leadPanel, topicsList } from '../components.js';
 
 const TOPICS = [
@@ -32,18 +31,14 @@ export default {
         ],
         title: 'Tu primer mes en OnlyFans',
         sub: 'Una guía para entender qué hacer durante tus primeros pasos y evitar empezar sin dirección.',
-        ctaHref: CONFIG.forms.empezar,
+        ctaHref: '/creadoras/empezar',
+        ctaForm: 'empezar',
         ctaLabel: 'Quiero la guía gratis',
-        external: true,
       }) +
       `<section class="section">` +
       `  <div class="container container-narrow">` +
       topicsList(TOPICS) +
-      leadPanel({
-        magnet: 'Tu primer mes en OnlyFans',
-        cta: 'Quiero empezar',
-        formKey: 'empezar',
-      }) +
+      leadPanel({ formKey: 'empezar' }) +
       `  </div>` +
       `</section>`
     );

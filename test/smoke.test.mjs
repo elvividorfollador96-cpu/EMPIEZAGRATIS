@@ -249,11 +249,19 @@ test('accessibilidad: skip link, labels, aria, lang, headings', async () => {
   }
 });
 
-test('legal: placeholders [COMPLETAR] visibles', async () => {
+test('legal: datos oficiales completos, sin placeholders', async () => {
   for (const p of ['/legal/privacidad', '/legal/aviso-legal', '/legal/cookies']) {
     const { doc } = await pageDoc(p);
-    const phs = doc.querySelectorAll('.ph');
-    assert.ok(phs.length > 0, `${p}: debe tener placeholders`);
-    assert.ok(doc.querySelector('.doc-notice'), `${p}: aviso de documento en preparación`);
+    const html = doc.documentElement.outerHTML;
+    // Datos oficiales del titular presentes
+    assert.ok(html.includes('Calle Plaza del Sol 14, 6ºA'), `${p}: domicilio oficial`);
+    assert.ok(html.includes('mailto:contacto.starupmentor@gmail.com'), `${p}: contacto mailto`);
+    // El email nunca visible como texto (solo en href)
+    const text = doc.body.textContent || '';
+    assert.ok(!text.includes('contacto.starupmentor') && !text.includes('@gmail.com'), `${p}: email no visible`);
+    // Sin placeholders pendientes ni datos que no existen
+    assert.equal(doc.querySelectorAll('.ph').length, 0, `${p}: sin placeholders`);
+    assert.ok(!html.includes('[COMPLETAR'), `${p}: sin [COMPLETAR]`);
+    assert.ok(!/NIF|CIF/.test(text), `${p}: sin NIF/CIF`);
   }
 });

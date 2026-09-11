@@ -12,6 +12,15 @@ export function escapeHtml(value) {
 }
 
 /**
+ * Enlace de contacto del titular.
+ * El email NUNCA se muestra como texto visible: solo existe en el href
+ * mailto:. La etiqueta visible es siempre "Contactar" (o similar).
+ */
+export function contactLink({ label = CONFIG.legal.contactLabel, className = 'contact-link' } = {}) {
+  return `<a class="${className}" href="mailto:${CONFIG.legal.email}">${escapeHtml(label)}</a>`;
+}
+
+/**
  * Favicon local (monograma) — fallback rápido y sin dependencias.
  * El icono principal de las páginas es el logo oficial (remoto).
  */
@@ -64,6 +73,9 @@ export function sitemapXml() {
 /**
  * Headers de seguridad (compatibles con Cloudflare Workers).
  * CSP estricta: solo recursos propios + GitHub raw para el logo.
+ * docs.google.com está permitido en connect-src/frame-src/form-action
+ * porque los formularios integrados envían (POST/fetch/iframe) al Google
+ * Form original, que sigue siendo el backend de las respuestas.
  */
 export function securityHeaders() {
   return {
@@ -73,10 +85,11 @@ export function securityHeaders() {
       "style-src 'self'; " +
       "img-src 'self' data: https://raw.githubusercontent.com; " +
       "font-src 'self'; " +
-      "connect-src 'self'; " +
+      "connect-src 'self' https://docs.google.com; " +
+      "frame-src 'self' https://docs.google.com; " +
       "object-src 'none'; " +
       "base-uri 'self'; " +
-      "form-action 'self'; " +
+      "form-action 'self' https://docs.google.com; " +
       "frame-ancestors 'self'",
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'SAMEORIGIN',

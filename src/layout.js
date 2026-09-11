@@ -1,6 +1,6 @@
 import { CONFIG } from './config.js';
 import { escapeHtml, FAVICON_SVG } from './utils.js';
-import { header, footer, mobileMenu, logoMark } from './components.js';
+import { header, footer, mobileMenu, logoMark, formModal } from './components.js';
 
 /** Página actual para resaltar en la navegación de escritorio. */
 function activeNav(pathname) {
@@ -65,6 +65,7 @@ function layout({ title, description, canonical, noindex, content, headingId }) 
     `</main>` +
     footer() +
     mobileMenu() +
+    formModal() +
     `</body>` +
     `</html>`
   );
