@@ -88,7 +88,7 @@ export const CONFIG = Object.freeze({
    * en cada despliegue (así el cliente nunca mezcla HTML nuevo con JS viejo).
    * Súbela (cualquier string distinto) cuando cambies styles.css o main.js.
    */
-  assetVersion: '2026.09.11-3',
+  assetVersion: '2026.09.11-4',
 
   /**
    * Fuente única del logo en toda la web.

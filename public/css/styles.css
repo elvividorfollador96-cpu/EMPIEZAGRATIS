@@ -310,11 +310,12 @@ p {
   object-fit: contain;
   /* Zoom del contenido del logo SIN tocar el marco circular: el círculo
      conserva exactamente las mismas dimensiones exteriores (overflow:hidden)
-     y solo se escala la imagen interna. El origen coincide con el centro
-     óptico del lockup "OFM TOP" (≈51.7%/51.9% del lienzo 2000×2000) y el
-     zoom (2.35) lleva el lockup al ~82% del diámetro sin recortar nada. */
-  transform: scale(var(--logo-zoom, 2.35));
-  transform-origin: 51.7% 51.9%;
+     y solo se escala la imagen interna. Origen = centro óptico real del
+     lockup "OFM TOP" (51.5%/51.9%, medido sobre el PNG 2000×2000) y zoom
+     2.1 → el lockup llena el ~80% del diámetro: grande pero sin recortar
+     las puntas de la M ni del paralelogramo (a partir de ~2.3 se cortan). */
+  transform: scale(var(--logo-zoom, 2.1));
+  transform-origin: 51.5% 51.9%;
 }
 .logo-mark-sm {
   --logo-size: 40px;
