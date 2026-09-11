@@ -51,9 +51,9 @@ export default {
     ).join('\n');
 
     return (
-      // HERO: badge GUÍA GRATUITA + titular + CTA + visual
+      // HERO: badge GUÍA GRATUITA + titular + CTA con fondo fotográfico
       `<section class="hero ofm-hero">` +
-      heroBg('analitica-escalar') +
+      heroBg('direccion-modelo-virtual') +
       `  <div class="container">` +
       breadcrumb([
         { href: '/', label: 'Inicio' },
@@ -66,15 +66,6 @@ export default {
       `      <div class="hero-actions">` +
       `        <a class="btn btn-primary btn-lg" href="#guias">Ver las guías gratis</a>` +
       `      </div>` +
-      `    </div>` +
-      `    <div class="ofm-hero-visual d2" data-reveal>` +
-      picture({
-        base: 'direccion-modelo-virtual',
-        alt: 'Dirección de arte de espaldas ante dos monitores con la hoja de personaje de un modelo virtual',
-        width: 1280,
-        height: 853,
-        lazy: false,
-      }) +
       `    </div>` +
       `  </div>` +
       `</section>` +
