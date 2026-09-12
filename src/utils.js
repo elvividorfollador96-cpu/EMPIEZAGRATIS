@@ -109,5 +109,8 @@ export function cacheControlFor(pathname) {
     return 'public, max-age=31536000, immutable';
   if (pathname.startsWith('/css/') || pathname.startsWith('/js/'))
     return 'public, max-age=86400';
+  // PDFs de las guías: contenido estable, pero refrescable en 24 h por si
+  // se publica una versión corregida bajo la misma ruta.
+  if (pathname.startsWith('/guias/')) return 'public, max-age=86400';
   return 'public, max-age=3600';
 }

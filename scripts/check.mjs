@@ -26,6 +26,7 @@ const MIME = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
+  '.pdf': 'application/pdf',
 };
 
 const assetsFetch = async (request) => {
@@ -94,7 +95,7 @@ const PAGES = [
   // método no permitido
 ];
 
-const KNOWN_STATIC = ['/css/', '/js/', '/fonts/', '/img/', '/favicon.ico', '/robots.txt', '/sitemap.xml'];
+const KNOWN_STATIC = ['/css/', '/js/', '/fonts/', '/img/', '/guias/', '/favicon.ico', '/robots.txt', '/sitemap.xml'];
 const KNOWN_PAGES = PAGES.map(([p]) => (p.length > 1 ? p.replace(/\/+$/, '') : p));
 
 console.log('── Rutas ────────────────────────────────');
@@ -175,6 +176,31 @@ for (const src of imgSet) {
 }
 if (imgRefs > 0) pass(`${imgRefs} referencias <img>/<source> a /img/ en el HTML`);
 else fail('ninguna página referencia imágenes locales');
+
+console.log('── Descargas PDF por guía ────────────────');
+{
+  const GUIDE_PAGES = [
+    ['/guia/primer-mes-en-onlyfans', 'empezar'],
+    ['/guia/como-crecer-y-escalar', 'escalar'],
+    ['/guia/ofm-desde-cero-modelos-reales', 'reales'],
+    ['/guia/modelo-virtual-con-ia', 'ia'],
+  ];
+  for (const [p, key] of GUIDE_PAGES) {
+    const { html } = htmlByPath[p] || { html: '' };
+    const pdf = CONFIG.forms[key].pdf;
+    const dl = html.match(new RegExp(`<a[^>]*href="${pdf}"[^>]*download[^>]*>`));
+    if (dl) pass(`${p}: botón de descarga → ${pdf}`);
+    else fail(`${p}: falta el botón de descarga ${pdf}`);
+    const res = await get(pdf);
+    const type = res.headers.get('content-type');
+    if (res.status === 200 && type === 'application/pdf') pass(`${pdf} → 200 (application/pdf)`);
+    else fail(`${pdf} → ${res.status} (${type || 'sin content-type'})`);
+  }
+  // El JS del modal enlaza el PDF en la pantalla de éxito (descarga según la guía elegida)
+  const js = await readFile(path.join(publicDir, 'js/main.js'), 'utf8');
+  if (js.includes('href="${escL(F.pdf)}" download')) pass('main.js: descarga del PDF en la pantalla de éxito');
+  else fail('main.js: falta la descarga del PDF en la pantalla de éxito');
+}
 
 console.log('── Formularios integrados (4) ────────────');
 const formChecks = [

@@ -349,6 +349,7 @@
         `  <p class="lf-sub">Tu recurso está listo.</p>` +
         `  <p class="lf-ok-guide">«${escL(F.guide)}»</p>` +
         `  <a class="btn btn-primary btn-lg btn-block btn-caps" href="${escL(F.guideHref)}">Acceder a la guía</a>` +
+        `  <a class="btn btn-ghost btn-block" href="${escL(F.pdf)}" download>Descargar la guía en PDF</a>` +
         `  <a class="btn btn-ghost btn-block" href="/ofm">Conocer OFM TOP</a>` +
         `</div>` +
         `<div class="lf-state" data-lf-state="frame" hidden>` +

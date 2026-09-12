@@ -38,7 +38,7 @@ const FORM_VIEW = (id) => `${FORMS_BASE}/${id}/viewform`;
  * desplegables y de las casillas son EXACTAMENTE las del formulario: si
  * cambian allí, deben cambiarse aquí.
  */
-function makeForm({ id, kind, kindLabel, guide, guideHref, fields }) {
+function makeForm({ id, kind, kindLabel, guide, guideHref, pdf, fields }) {
   return {
     id,
     /** Endpoint receptor (POST). No cambia sin verificar el formulario. */
@@ -51,6 +51,8 @@ function makeForm({ id, kind, kindLabel, guide, guideHref, fields }) {
     guide,
     /** Destino del CTA "Acceder a la guía" tras el envío. */
     guideHref,
+    /** PDF de la guía (descarga directa tras elegir/aterrizar en ella). */
+    pdf,
     /** Atribución UTM → entry del CRM. Vacío hasta crear los campos ocultos. */
     utmEntries: { source: null, medium: null, campaign: null, content: null, term: null },
     fields,
@@ -82,7 +84,7 @@ export const CONFIG = Object.freeze({
    * en cada despliegue (así el cliente nunca mezcla HTML nuevo con JS viejo).
    * Súbela (cualquier string distinto) cuando cambies styles.css o main.js.
    */
-  assetVersion: '2026.09.11-9',
+  assetVersion: '2026.09.12-1',
 
   /**
    * Fuente única del logo en toda la web.
@@ -120,6 +122,7 @@ export const CONFIG = Object.freeze({
       kindLabel: 'Creadoras',
       guide: 'Tu primer mes en OnlyFans',
       guideHref: '/guia/primer-mes-en-onlyfans',
+      pdf: '/guias/OFM-TOP-Tu-primer-mes-en-OnlyFans.pdf',
       fields: [
         { k: 'nombre', entry: '219114604', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '641949080', t: 'email', label: 'Email', ac: 'email', req: true },
@@ -153,6 +156,7 @@ export const CONFIG = Object.freeze({
       kindLabel: 'Creadoras',
       guide: 'Cómo crecer y escalar una cuenta de OnlyFans',
       guideHref: '/guia/como-crecer-y-escalar',
+      pdf: '/guias/OFM-TOP-Como-crecer-y-escalar-una-cuenta-de-OnlyFans.pdf',
       fields: [
         { k: 'nombre', entry: '1936279882', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '450818698', t: 'email', label: 'Email', ac: 'email', req: true },
@@ -186,6 +190,7 @@ export const CONFIG = Object.freeze({
       kindLabel: 'OFM',
       guide: 'OFM desde cero: modelos reales',
       guideHref: '/guia/ofm-desde-cero-modelos-reales',
+      pdf: '/guias/OFM-TOP-OFM-desde-cero-modelos-reales.pdf',
       fields: [
         { k: 'nombre', entry: '1043066242', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '406570008', t: 'email', label: 'Email', ac: 'email', req: true },
@@ -214,6 +219,7 @@ export const CONFIG = Object.freeze({
       kindLabel: 'OFM',
       guide: 'Cómo construir un proyecto de modelo virtual con IA',
       guideHref: '/guia/modelo-virtual-con-ia',
+      pdf: '/guias/OFM-TOP-Modelo-virtual-con-IA.pdf',
       fields: [
         { k: 'nombre', entry: '136592226', t: 'text', label: 'Nombre', ac: 'name', req: true },
         { k: 'email', entry: '29896367', t: 'email', label: 'Email', ac: 'email', req: true },

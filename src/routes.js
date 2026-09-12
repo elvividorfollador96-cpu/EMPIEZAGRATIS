@@ -38,4 +38,4 @@ export function getRoute(pathname) {
 export const PAGE_PATHS = PAGES.map((r) => r.path);
 
 /** Prefijos de archivos estáticos servidos desde `public/` (env.ASSETS). */
-export const STATIC_PREFIXES = ['/css/', '/js/', '/fonts/', '/img/'];
+export const STATIC_PREFIXES = ['/css/', '/js/', '/fonts/', '/img/', '/guias/'];

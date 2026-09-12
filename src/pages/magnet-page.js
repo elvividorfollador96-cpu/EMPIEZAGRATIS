@@ -1,5 +1,6 @@
 import { breadcrumb, ICONS } from '../components.js';
 import { contactLink } from '../utils.js';
+import { CONFIG } from '../config.js';
 
 /**
  * Fábrica de páginas Lead Magnet (diseño actual de la web, sin rediseño).
@@ -58,6 +59,15 @@ export function magnetPage({ path, seo, eyebrow, title, intro, sections, bg, cru
     .map((s) => `<a href="#bloque-${s.n}">${s.n} · ${s.t}</a>`)
     .join('');
 
+  // PDF descargable de ESTA guía (según el formulario/guía elegida).
+  const pdf = CONFIG.forms?.[ctaKey]?.pdf || null;
+  const pdfBtn = pdf
+    ? `<a class="btn btn-ghost btn-lg btn-caps" href="${pdf}" download>Descargar la guía en PDF</a>`
+    : '';
+  const pdfEnd = pdf
+    ? `  <p class="contact-line" data-reveal>¿La prefieres en un archivo? <a href="${pdf}" download>Descarga «${title.split('·')[0].trim()}» en PDF</a>.</p>`
+    : '';
+
   return {
     path,
     seo,
@@ -72,8 +82,9 @@ export function magnetPage({ path, seo, eyebrow, title, intro, sections, bg, cru
         `      <p class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>Guía gratuita</p>` +
         `      <h1 id="page-title" class="hero-title">${title}</h1>` +
         `      <p class="hero-sub">Recurso gratuito de OFM TOP. Sin coste y sin promesas: estructura y criterio para construir tu proyecto.</p>` +
-        `      <div class="hero-actions">` +
+          `      <div class="hero-actions">` +
         `        <a class="btn btn-primary btn-lg btn-caps" href="#contenido-guia">Leer la guía</a>` +
+        pdfBtn +
         `      </div>` +
         `    </div>` +
         `  </div>` +
@@ -118,6 +129,7 @@ export function magnetPage({ path, seo, eyebrow, title, intro, sections, bg, cru
         `      </a>` +
         `    </div>` +
         `    <p class="contact-line" data-reveal>¿Dudas? ${contactLink()}</p>` +
+        pdfEnd +
         `  </div>` +
         `</section>`
       );
